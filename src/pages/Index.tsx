@@ -104,29 +104,26 @@ const Index = () => {
 
       {/* ─── ADD TO CALENDAR ─── */}
       <section className="max-w-md mx-auto px-4 py-8 text-center space-y-3">
-        <div className="bg-ramadan-coral/8 border border-ramadan-coral/20 rounded-2xl p-6 space-y-4">
-          <h3 className="font-display text-lg font-semibold">Add to Your Calendar</h3>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Button variant="outline" asChild>
-              <a href={getGoogleCalendarUrl(startOption)} target="_blank" rel="noopener noreferrer">
-                <ExternalLink className="mr-2 h-4 w-4" />
-                Add to Google Calendar
-              </a>
-            </Button>
-            <Button variant="outline" onClick={handleDownloadICS}>
-              <Download className="mr-2 h-4 w-4" />
-              Download for Apple Calendar
-            </Button>
-          </div>
-          <p className="text-xs text-muted-foreground">
-            The .ics file works with Apple Calendar, Outlook, and other calendar apps.
-          </p>
+        <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          <Button variant="outline" asChild>
+            <a href={getGoogleCalendarUrl(startOption)} target="_blank" rel="noopener noreferrer">
+              <ExternalLink className="mr-2 h-4 w-4" />
+              Add to Google Calendar
+            </a>
+          </Button>
+          <Button variant="outline" onClick={handleDownloadICS}>
+            <Download className="mr-2 h-4 w-4" />
+            Download for Apple Calendar
+          </Button>
         </div>
+        <p className="text-xs text-muted-foreground">
+          The .ics file works with Apple Calendar, Outlook, and other calendar apps.
+        </p>
       </section>
 
       {/* ─── EDUCATIONAL ─── */}
       <section className="max-w-2xl mx-auto px-4 py-12">
-        <div className="bg-ramadan-coral/10 rounded-2xl p-6 sm:p-8 border border-ramadan-coral/20">
+        <div className="bg-card rounded-2xl p-6 sm:p-8 border border-border">
           <h2 className="font-display text-xl sm:text-2xl font-bold mb-4 flex items-center gap-2">
             <Moon className="h-5 w-5 text-ramadan-qadr" />
             The Last 10 Nights &amp; Laylatul Qadr
@@ -157,7 +154,7 @@ const Index = () => {
           href="https://hijabifriendly.com/"
           target="_blank"
           rel="noopener noreferrer"
-          className="block bg-ramadan-coral/10 rounded-2xl p-6 border border-ramadan-coral/25 hover:border-ramadan-teal/40 transition-all duration-300 hover:shadow-md group"
+          className="block bg-card rounded-2xl p-6 border border-ramadan-teal/25 hover:border-ramadan-teal/50 transition-all duration-300 hover:shadow-lg group"
         >
           <div className="flex items-start gap-4">
             <div className="shrink-0 h-10 w-10 rounded-full bg-ramadan-teal/15 flex items-center justify-center text-ramadan-teal">
