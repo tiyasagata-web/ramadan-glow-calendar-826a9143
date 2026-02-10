@@ -113,7 +113,7 @@ function CalendarCell({ day, eid29, eid30, onClick }: { day: CalendarDay; eid29:
       <div className="flex-1 flex flex-col justify-center items-center text-center gap-0.5">
         {day.isFirstTarawih && (
           <>
-            <Moon className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-ramadan-tarawih animate-pulse-glow" />
+            <Moon className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-ramadan-tarawih" />
             <span className="text-[9px] sm:text-[10px] md:text-xs font-medium text-ramadan-tarawih leading-tight">
               First Tarawih
             </span>
@@ -149,7 +149,7 @@ function CalendarCell({ day, eid29, eid30, onClick }: { day: CalendarDay; eid29:
 
         {day.isEidIf30 && (
           <>
-            <Star className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-ramadan-eid animate-float" />
+            <Star className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-ramadan-eid" />
             <span className="text-[9px] sm:text-[10px] md:text-xs font-semibold text-ramadan-eid leading-tight">
               Eid al-Fitr
             </span>

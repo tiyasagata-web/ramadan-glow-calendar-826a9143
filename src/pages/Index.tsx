@@ -9,7 +9,7 @@ import {
   getGoogleCalendarUrl,
   type StartDate,
 } from "@/lib/ramadan-data";
-import { Moon, Star, Download, ExternalLink, Sparkles, Heart } from "lucide-react";
+import { Moon, Star, Download, ExternalLink, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Index = () => {
@@ -125,7 +125,7 @@ const Index = () => {
       <section className="max-w-2xl mx-auto px-4 py-12">
         <div className="bg-card rounded-2xl p-6 sm:p-8 border border-border">
           <h2 className="font-display text-xl sm:text-2xl font-bold mb-4 flex items-center gap-2">
-            <Sparkles className="h-5 w-5 text-ramadan-qadr" />
+            <Moon className="h-5 w-5 text-ramadan-qadr" />
             The Last 10 Nights &amp; Laylatul Qadr
           </h2>
           <div className="space-y-3 text-sm sm:text-base text-muted-foreground leading-relaxed">
