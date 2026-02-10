@@ -4,93 +4,93 @@
 
 @layer base {
   :root {
-    --background: 38 40% 97%;
-    --foreground: 25 20% 12%;
-    --card: 35 30% 94%;
-    --card-foreground: 25 20% 12%;
-    --popover: 38 40% 97%;
-    --popover-foreground: 25 20% 12%;
-    --primary: 30 72% 48%;
-    --primary-foreground: 40 50% 97%;
-    --secondary: 35 22% 89%;
-    --secondary-foreground: 25 20% 18%;
-    --muted: 33 18% 90%;
-    --muted-foreground: 25 10% 45%;
-    --accent: 175 35% 42%;
+    --background: 14 45% 85%;
+    --foreground: 15 25% 15%;
+    --card: 30 40% 93%;
+    --card-foreground: 15 25% 15%;
+    --popover: 30 40% 93%;
+    --popover-foreground: 15 25% 15%;
+    --primary: 14 55% 52%;
+    --primary-foreground: 35 45% 96%;
+    --secondary: 25 30% 88%;
+    --secondary-foreground: 15 25% 18%;
+    --muted: 20 25% 82%;
+    --muted-foreground: 15 15% 38%;
+    --accent: 240 25% 45%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    --border: 33 18% 85%;
-    --input: 33 18% 85%;
-    --ring: 30 72% 48%;
+    --border: 20 20% 78%;
+    --input: 20 20% 78%;
+    --ring: 14 55% 52%;
     --radius: 0.75rem;
 
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 14 40% 88%;
+    --sidebar-foreground: 15 20% 20%;
+    --sidebar-primary: 14 55% 52%;
+    --sidebar-primary-foreground: 35 45% 96%;
+    --sidebar-accent: 20 25% 85%;
+    --sidebar-accent-foreground: 15 20% 15%;
+    --sidebar-border: 20 18% 80%;
+    --sidebar-ring: 14 55% 52%;
 
     /* Ramadan palette */
-    --ramadan-amber: 35 88% 52%;
-    --ramadan-coral: 12 75% 55%;
-    --ramadan-sunset: 22 85% 50%;
-    --ramadan-glow: 42 95% 60%;
-    --ramadan-glow-strong: 30 90% 48%;
-    --ramadan-qadr: 258 55% 58%;
-    --ramadan-qadr-glow: 250 60% 62%;
-    --ramadan-teal: 175 50% 45%;
-    --ramadan-eid: 150 60% 42%;
-    --ramadan-night: 225 35% 28%;
-    --ramadan-tarawih: 215 55% 50%;
-    --ramadan-cream: 38 50% 94%;
+    --ramadan-amber: 25 60% 48%;
+    --ramadan-coral: 14 50% 52%;
+    --ramadan-sunset: 18 55% 48%;
+    --ramadan-glow: 20 40% 55%;
+    --ramadan-glow-strong: 14 45% 46%;
+    --ramadan-qadr: 240 30% 42%;
+    --ramadan-qadr-glow: 240 25% 45%;
+    --ramadan-teal: 14 40% 48%;
+    --ramadan-eid: 14 50% 55%;
+    --ramadan-night: 240 25% 30%;
+    --ramadan-tarawih: 14 45% 50%;
+    --ramadan-cream: 30 40% 93%;
   }
 
   .dark {
-    --background: 228 18% 8%;
-    --foreground: 35 25% 90%;
-    --card: 228 16% 12%;
-    --card-foreground: 35 25% 90%;
-    --popover: 228 16% 12%;
-    --popover-foreground: 35 25% 90%;
-    --primary: 32 75% 52%;
-    --primary-foreground: 228 18% 8%;
-    --secondary: 228 14% 18%;
-    --secondary-foreground: 35 25% 85%;
-    --muted: 228 14% 16%;
-    --muted-foreground: 228 10% 55%;
-    --accent: 175 35% 40%;
+    --background: 15 20% 10%;
+    --foreground: 25 30% 88%;
+    --card: 15 18% 14%;
+    --card-foreground: 25 30% 88%;
+    --popover: 15 18% 14%;
+    --popover-foreground: 25 30% 88%;
+    --primary: 14 50% 55%;
+    --primary-foreground: 15 20% 10%;
+    --secondary: 15 15% 20%;
+    --secondary-foreground: 25 25% 82%;
+    --muted: 15 12% 18%;
+    --muted-foreground: 15 10% 55%;
+    --accent: 240 25% 50%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 62% 30%;
     --destructive-foreground: 0 0% 100%;
-    --border: 228 14% 20%;
-    --input: 228 14% 20%;
-    --ring: 32 75% 52%;
+    --border: 15 12% 22%;
+    --input: 15 12% 22%;
+    --ring: 14 50% 55%;
 
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-background: 15 18% 12%;
+    --sidebar-foreground: 25 25% 85%;
+    --sidebar-primary: 14 50% 55%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 15 12% 18%;
+    --sidebar-accent-foreground: 25 25% 85%;
+    --sidebar-border: 15 10% 20%;
+    --sidebar-ring: 14 50% 55%;
 
-    --ramadan-amber: 35 85% 52%;
-    --ramadan-coral: 12 70% 55%;
-    --ramadan-sunset: 22 80% 50%;
-    --ramadan-glow: 42 90% 55%;
-    --ramadan-glow-strong: 30 88% 46%;
-    --ramadan-qadr: 258 50% 58%;
-    --ramadan-qadr-glow: 250 55% 60%;
-    --ramadan-teal: 175 45% 42%;
-    --ramadan-eid: 150 55% 40%;
-    --ramadan-night: 225 30% 18%;
-    --ramadan-tarawih: 215 50% 48%;
-    --ramadan-cream: 228 16% 12%;
+    --ramadan-amber: 25 55% 50%;
+    --ramadan-coral: 14 45% 52%;
+    --ramadan-sunset: 18 50% 48%;
+    --ramadan-glow: 20 35% 50%;
+    --ramadan-glow-strong: 14 40% 44%;
+    --ramadan-qadr: 240 30% 50%;
+    --ramadan-qadr-glow: 240 25% 48%;
+    --ramadan-teal: 14 35% 45%;
+    --ramadan-eid: 14 45% 52%;
+    --ramadan-night: 240 22% 22%;
+    --ramadan-tarawih: 14 40% 48%;
+    --ramadan-cream: 15 18% 14%;
   }
 }
 
@@ -150,8 +150,8 @@
   .hero-glow {
     background: radial-gradient(
       ellipse 80% 60% at 50% 40%,
-      hsl(var(--ramadan-glow) / 0.06) 0%,
-      hsl(var(--ramadan-coral) / 0.03) 40%,
+      hsl(var(--primary) / 0.08) 0%,
+      hsl(var(--primary) / 0.03) 50%,
       transparent 70%
     );
   }

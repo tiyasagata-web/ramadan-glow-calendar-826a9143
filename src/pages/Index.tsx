@@ -9,7 +9,7 @@ import {
   getGoogleCalendarUrl,
   type StartDate,
 } from "@/lib/ramadan-data";
-import { Moon, Star, Download, ExternalLink, Heart } from "lucide-react";
+import { Moon, Download, ExternalLink, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Index = () => {
@@ -39,10 +39,10 @@ const Index = () => {
       <header className="relative overflow-hidden py-20 md:py-32 flex flex-col items-center justify-center text-center px-4">
         <div className="absolute inset-0 hero-glow" />
         <div className="relative z-10 max-w-2xl">
-          <div className="mb-5 flex items-center justify-center gap-3 text-ramadan-amber animate-float">
-            <Star className="h-4 w-4 opacity-60" />
+          <div className="mb-5 flex items-center justify-center gap-3 text-primary">
+            <Moon className="h-5 w-5 opacity-60" />
             <Moon className="h-7 w-7" />
-            <Star className="h-4 w-4 opacity-60" />
+            <Moon className="h-5 w-5 opacity-60" />
           </div>
           <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold text-glow-strong tracking-tight">
             Ramadan 2026
@@ -70,14 +70,14 @@ const Index = () => {
           <Button
             variant={startOption === 'feb17' ? 'default' : 'outline'}
             onClick={() => setStartOption('feb17')}
-            className={startOption === 'feb17' ? 'glow-border-amber' : ''}
+            className=""
           >
             February 17 — Astronomical
           </Button>
           <Button
             variant={startOption === 'feb18' ? 'default' : 'outline'}
             onClick={() => setStartOption('feb18')}
-            className={startOption === 'feb18' ? 'glow-border-amber' : ''}
+            className=""
           >
             February 18 — Moon Sighting
           </Button>
@@ -90,10 +90,10 @@ const Index = () => {
       {/* ─── LEGEND ─── */}
       <section className="max-w-4xl mx-auto px-4 py-10">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <LegendItem color="bg-ramadan-amber/20 border-ramadan-amber/30 glow-border-amber" label="Fasting Day" />
-          <LegendItem color="bg-ramadan-sunset/20 border-ramadan-sunset/35 glow-border-amber-strong" label="Last 10 Nights" />
-          <LegendItem color="bg-ramadan-qadr/15 border-ramadan-qadr/30 glow-border-qadr" label="Odd Night (Qadr)" />
-          <LegendItem color="bg-ramadan-eid/15 border-ramadan-eid/30 glow-border-eid" label="Eid al-Fitr" />
+          <LegendItem color="bg-card border-primary/15" label="Fasting Day" />
+          <LegendItem color="bg-primary/12 border-primary/35" label="Last 10 Nights" />
+          <LegendItem color="bg-accent/12 border-accent/30" label="Odd Night (Qadr)" />
+          <LegendItem color="bg-card border-primary/30" label="Eid al-Fitr" />
         </div>
         <p className="text-muted-foreground text-xs sm:text-sm mt-4 leading-relaxed italic text-center max-w-2xl mx-auto">
           "Laylatul Qadr, the Night of Power, is a deeply sacred night in the last 10 nights of
@@ -123,9 +123,9 @@ const Index = () => {
 
       {/* ─── EDUCATIONAL ─── */}
       <section className="max-w-2xl mx-auto px-4 py-12">
-        <div className="bg-card rounded-2xl p-6 sm:p-8 border border-border">
+        <div className="bg-card rounded-2xl p-6 sm:p-8 border border-primary/15">
           <h2 className="font-display text-xl sm:text-2xl font-bold mb-4 flex items-center gap-2">
-            <Moon className="h-5 w-5 text-ramadan-qadr" />
+            <Moon className="h-5 w-5 text-accent" />
             The Last 10 Nights &amp; Laylatul Qadr
           </h2>
           <div className="space-y-3 text-sm sm:text-base text-muted-foreground leading-relaxed">
@@ -154,20 +154,20 @@ const Index = () => {
           href="https://hijabifriendly.com/"
           target="_blank"
           rel="noopener noreferrer"
-          className="block bg-card rounded-2xl p-6 border border-ramadan-teal/25 hover:border-ramadan-teal/50 transition-all duration-300 hover:shadow-lg group"
+          className="block bg-card rounded-2xl p-6 border border-primary/25 hover:border-primary/50 transition-all duration-300 hover:shadow-lg group"
         >
           <div className="flex items-start gap-4">
-            <div className="shrink-0 h-10 w-10 rounded-full bg-ramadan-teal/15 flex items-center justify-center text-ramadan-teal">
+            <div className="shrink-0 h-10 w-10 rounded-full bg-primary/15 flex items-center justify-center text-primary">
               <Heart className="h-5 w-5" />
             </div>
             <div>
-              <h3 className="font-display text-base sm:text-lg font-semibold group-hover:text-ramadan-teal transition-colors">
+              <h3 className="font-display text-base sm:text-lg font-semibold group-hover:text-primary transition-colors">
                 Hijabi-Friendly Hair Salon Directory in NYC
               </h3>
               <p className="text-sm text-muted-foreground mt-1">
                 Finding a Hijab-Friendly Salon in NYC Shouldn't Be This Hard
               </p>
-              <span className="inline-flex items-center gap-1 text-xs text-ramadan-teal mt-2 font-medium">
+              <span className="inline-flex items-center gap-1 text-xs text-primary mt-2 font-medium">
                 Visit hijabifriendly.com <ExternalLink className="h-3 w-3" />
               </span>
             </div>
@@ -194,7 +194,7 @@ const Index = () => {
               href="https://www.linkedin.com/in/spatial-uzair/"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-semibold text-foreground hover:text-ramadan-amber transition-colors"
+              className="font-semibold text-foreground hover:text-primary transition-colors"
             >
               UZAIR KHAN
             </a>
