@@ -59,7 +59,7 @@ const Index = () => {
       </header>
 
       {/* ─── START DATE SELECTOR ─── */}
-      <section className="max-w-2xl mx-auto px-4 py-10 text-center">
+      <section className="max-w-2xl mx-auto px-4 pt-2 pb-10 text-center">
         <h2 className="font-display text-xl sm:text-2xl md:text-3xl font-bold mb-2">
           Select Ramadan Start Date
         </h2>
@@ -201,9 +201,6 @@ const Index = () => {
           </p>
           <p className="text-xs text-muted-foreground">
             Made with care for the Muslim community in the USA
-          </p>
-          <p className="font-amiri text-base text-foreground/70 pt-2">
-            Ramadan Mubarak 🌙
           </p>
         </div>
       </footer>

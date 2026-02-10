@@ -35,18 +35,18 @@
     --sidebar-ring: 217.2 91.2% 59.8%;
 
     /* Ramadan palette */
-    --ramadan-amber: 35 80% 55%;
-    --ramadan-coral: 12 65% 60%;
-    --ramadan-sunset: 22 75% 52%;
-    --ramadan-glow: 42 90% 65%;
-    --ramadan-glow-strong: 30 85% 50%;
-    --ramadan-qadr: 258 45% 55%;
-    --ramadan-qadr-glow: 250 50% 65%;
-    --ramadan-teal: 175 40% 45%;
-    --ramadan-eid: 150 50% 42%;
-    --ramadan-night: 225 30% 30%;
-    --ramadan-tarawih: 215 45% 50%;
-    --ramadan-cream: 38 45% 95%;
+    --ramadan-amber: 35 88% 52%;
+    --ramadan-coral: 12 75% 55%;
+    --ramadan-sunset: 22 85% 50%;
+    --ramadan-glow: 42 95% 60%;
+    --ramadan-glow-strong: 30 90% 48%;
+    --ramadan-qadr: 258 55% 58%;
+    --ramadan-qadr-glow: 250 60% 62%;
+    --ramadan-teal: 175 50% 45%;
+    --ramadan-eid: 150 60% 42%;
+    --ramadan-night: 225 35% 28%;
+    --ramadan-tarawih: 215 55% 50%;
+    --ramadan-cream: 38 50% 94%;
   }
 
   .dark {
@@ -79,17 +79,17 @@
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
 
-    --ramadan-amber: 35 75% 50%;
-    --ramadan-coral: 12 60% 55%;
-    --ramadan-sunset: 22 70% 48%;
-    --ramadan-glow: 42 85% 55%;
-    --ramadan-glow-strong: 30 80% 45%;
-    --ramadan-qadr: 258 40% 55%;
-    --ramadan-qadr-glow: 250 45% 60%;
-    --ramadan-teal: 175 35% 42%;
-    --ramadan-eid: 150 45% 40%;
-    --ramadan-night: 225 25% 20%;
-    --ramadan-tarawih: 215 40% 48%;
+    --ramadan-amber: 35 85% 52%;
+    --ramadan-coral: 12 70% 55%;
+    --ramadan-sunset: 22 80% 50%;
+    --ramadan-glow: 42 90% 55%;
+    --ramadan-glow-strong: 30 88% 46%;
+    --ramadan-qadr: 258 50% 58%;
+    --ramadan-qadr-glow: 250 55% 60%;
+    --ramadan-teal: 175 45% 42%;
+    --ramadan-eid: 150 55% 40%;
+    --ramadan-night: 225 30% 18%;
+    --ramadan-tarawih: 215 50% 48%;
     --ramadan-cream: 228 16% 12%;
   }
 }
@@ -131,26 +131,26 @@
     background-clip: text;
   }
   .glow-border-amber {
-    box-shadow: 0 0 15px hsl(var(--ramadan-glow) / 0.25),
-                inset 0 0 15px hsl(var(--ramadan-glow) / 0.05);
+    box-shadow: 0 0 18px hsl(var(--ramadan-glow) / 0.35),
+                inset 0 0 18px hsl(var(--ramadan-glow) / 0.08);
   }
   .glow-border-amber-strong {
-    box-shadow: 0 0 25px hsl(var(--ramadan-glow-strong) / 0.35),
-                0 0 50px hsl(var(--ramadan-glow-strong) / 0.15),
-                inset 0 0 20px hsl(var(--ramadan-glow-strong) / 0.08);
+    box-shadow: 0 0 30px hsl(var(--ramadan-glow-strong) / 0.5),
+                0 0 60px hsl(var(--ramadan-glow-strong) / 0.22),
+                inset 0 0 25px hsl(var(--ramadan-glow-strong) / 0.12);
   }
   .glow-border-qadr {
-    box-shadow: 0 0 20px hsl(var(--ramadan-qadr-glow) / 0.35),
-                0 0 40px hsl(var(--ramadan-qadr-glow) / 0.15),
-                inset 0 0 15px hsl(var(--ramadan-qadr-glow) / 0.05);
+    box-shadow: 0 0 25px hsl(var(--ramadan-qadr-glow) / 0.45),
+                0 0 50px hsl(var(--ramadan-qadr-glow) / 0.2),
+                inset 0 0 20px hsl(var(--ramadan-qadr-glow) / 0.08);
   }
   .glow-border-eid {
-    box-shadow: 0 0 20px hsl(var(--ramadan-eid) / 0.35),
-                0 0 40px hsl(var(--ramadan-eid) / 0.15);
+    box-shadow: 0 0 25px hsl(var(--ramadan-eid) / 0.45),
+                0 0 50px hsl(var(--ramadan-eid) / 0.2);
   }
   .glow-border-tarawih {
-    box-shadow: 0 0 15px hsl(var(--ramadan-tarawih) / 0.3),
-                inset 0 0 10px hsl(var(--ramadan-tarawih) / 0.05);
+    box-shadow: 0 0 20px hsl(var(--ramadan-tarawih) / 0.4),
+                inset 0 0 14px hsl(var(--ramadan-tarawih) / 0.08);
   }
   .hero-glow {
     background: radial-gradient(
