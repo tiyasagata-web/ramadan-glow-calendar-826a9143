@@ -86,11 +86,11 @@ function CalendarCell({ day, eid29, eid30, onClick }: { day: CalendarDay; eid29:
   } else if (day.isFirstTarawih) {
     cellClass += "bg-ramadan-tarawih/12 border border-ramadan-tarawih/25 glow-border-tarawih hover:bg-ramadan-tarawih/20";
   } else if (day.isQadrNight) {
-    cellClass += "bg-ramadan-qadr/15 border border-ramadan-qadr/30 glow-border-qadr hover:bg-ramadan-qadr/22";
+    cellClass += "bg-ramadan-qadr/20 border border-ramadan-qadr/40 glow-border-qadr hover:bg-ramadan-qadr/30";
   } else if (day.isLastTen) {
-    cellClass += "bg-ramadan-sunset/20 border border-ramadan-sunset/35 glow-border-amber-strong hover:bg-ramadan-sunset/28";
+    cellClass += "bg-ramadan-sunset/25 border border-ramadan-sunset/45 glow-border-amber-strong hover:bg-ramadan-sunset/35";
   } else if (day.fastingDay) {
-    cellClass += "bg-ramadan-amber/12 border border-ramadan-amber/22 glow-border-amber hover:bg-ramadan-amber/18";
+    cellClass += "bg-ramadan-amber/18 border border-ramadan-amber/30 glow-border-amber hover:bg-ramadan-amber/25";
   }
 
   return (
@@ -104,7 +104,7 @@ function CalendarCell({ day, eid29, eid30, onClick }: { day: CalendarDay; eid29:
       <div className="flex-1 flex flex-col justify-center items-center text-center gap-0.5">
         {day.isFirstTarawih && (
           <>
-            <Moon className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-ramadan-tarawih" />
+            <Moon className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-ramadan-tarawih animate-pulse-glow" />
             <span className="text-[9px] sm:text-[10px] md:text-xs font-medium text-ramadan-tarawih leading-tight">
               First Tarawih
             </span>
@@ -115,7 +115,7 @@ function CalendarCell({ day, eid29, eid30, onClick }: { day: CalendarDay; eid29:
         {day.fastingDay && (
           <>
             {day.isQadrNight && (
-              <Sparkles className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-ramadan-qadr" />
+              <Sparkles className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-ramadan-qadr animate-pulse-glow" />
             )}
             <span className={`text-xs sm:text-sm font-semibold leading-tight ${
               day.isQadrNight ? 'text-ramadan-qadr' :
@@ -146,7 +146,7 @@ function CalendarCell({ day, eid29, eid30, onClick }: { day: CalendarDay; eid29:
 
         {day.isEidIf30 && (
           <>
-            <Star className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-ramadan-eid" />
+            <Star className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-ramadan-eid animate-float" />
             <span className="text-[9px] sm:text-[10px] md:text-xs font-semibold text-ramadan-eid leading-tight">
               Eid al-Fitr
             </span>
