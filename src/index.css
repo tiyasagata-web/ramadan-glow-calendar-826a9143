@@ -112,17 +112,14 @@
     font-family: 'Amiri', serif;
   }
   .text-glow {
-    text-shadow: 0 0 20px hsl(var(--ramadan-glow) / 0.4),
-                 0 0 40px hsl(var(--ramadan-glow) / 0.15);
+    text-shadow: 0 1px 8px hsl(var(--ramadan-glow) / 0.15);
   }
   .text-glow-strong {
-    text-shadow: 0 0 30px hsl(var(--ramadan-glow) / 0.6),
-                 0 0 60px hsl(var(--ramadan-glow) / 0.25),
-                 0 0 100px hsl(var(--ramadan-glow) / 0.1);
+    text-shadow: 0 2px 12px hsl(var(--ramadan-glow) / 0.2),
+                 0 4px 24px hsl(var(--ramadan-glow) / 0.08);
   }
   .text-glow-qadr {
-    text-shadow: 0 0 20px hsl(var(--ramadan-qadr-glow) / 0.5),
-                 0 0 40px hsl(var(--ramadan-qadr-glow) / 0.2);
+    text-shadow: 0 1px 8px hsl(var(--ramadan-qadr-glow) / 0.15);
   }
   .month-gradient {
     background: linear-gradient(135deg, hsl(var(--ramadan-amber)), hsl(var(--ramadan-coral)));
@@ -131,32 +128,30 @@
     background-clip: text;
   }
   .glow-border-amber {
-    box-shadow: 0 0 18px hsl(var(--ramadan-glow) / 0.35),
-                inset 0 0 18px hsl(var(--ramadan-glow) / 0.08);
+    box-shadow: 0 1px 4px hsl(var(--ramadan-glow) / 0.12),
+                0 2px 8px hsl(var(--ramadan-glow) / 0.06);
   }
   .glow-border-amber-strong {
-    box-shadow: 0 0 30px hsl(var(--ramadan-glow-strong) / 0.5),
-                0 0 60px hsl(var(--ramadan-glow-strong) / 0.22),
-                inset 0 0 25px hsl(var(--ramadan-glow-strong) / 0.12);
+    box-shadow: 0 2px 8px hsl(var(--ramadan-glow-strong) / 0.18),
+                0 4px 16px hsl(var(--ramadan-glow-strong) / 0.08);
   }
   .glow-border-qadr {
-    box-shadow: 0 0 25px hsl(var(--ramadan-qadr-glow) / 0.45),
-                0 0 50px hsl(var(--ramadan-qadr-glow) / 0.2),
-                inset 0 0 20px hsl(var(--ramadan-qadr-glow) / 0.08);
+    box-shadow: 0 1px 6px hsl(var(--ramadan-qadr-glow) / 0.15),
+                0 3px 12px hsl(var(--ramadan-qadr-glow) / 0.06);
   }
   .glow-border-eid {
-    box-shadow: 0 0 25px hsl(var(--ramadan-eid) / 0.45),
-                0 0 50px hsl(var(--ramadan-eid) / 0.2);
+    box-shadow: 0 1px 6px hsl(var(--ramadan-eid) / 0.15),
+                0 3px 12px hsl(var(--ramadan-eid) / 0.06);
   }
   .glow-border-tarawih {
-    box-shadow: 0 0 20px hsl(var(--ramadan-tarawih) / 0.4),
-                inset 0 0 14px hsl(var(--ramadan-tarawih) / 0.08);
+    box-shadow: 0 1px 4px hsl(var(--ramadan-tarawih) / 0.12),
+                0 2px 8px hsl(var(--ramadan-tarawih) / 0.06);
   }
   .hero-glow {
     background: radial-gradient(
       ellipse 80% 60% at 50% 40%,
-      hsl(var(--ramadan-glow) / 0.12) 0%,
-      hsl(var(--ramadan-coral) / 0.06) 40%,
+      hsl(var(--ramadan-glow) / 0.06) 0%,
+      hsl(var(--ramadan-coral) / 0.03) 40%,
       transparent 70%
     );
   }
