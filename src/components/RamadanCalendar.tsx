@@ -1,5 +1,5 @@
 import { CalendarDay, getOrdinal, formatShortDate, formatEidLabel, getEidDate29, getEidDate30, type StartDate } from "@/lib/ramadan-data";
-import { Moon, Star, Sparkles } from "lucide-react";
+import { Moon, Star } from "lucide-react";
 
 interface Props {
   days: CalendarDay[];
@@ -95,10 +95,19 @@ function CalendarCell({ day, eid29, eid30, onClick }: { day: CalendarDay; eid29:
 
   return (
     <div className={cellClass} onClick={onClick} role="button" tabIndex={0} aria-label={getAriaLabel(day)}>
-      {/* Date */}
-      <span className={`text-[10px] sm:text-xs ${day.isMuted ? 'text-muted-foreground/40' : 'text-muted-foreground'}`}>
-        {formatShortDate(day.date)}
-      </span>
+      {/* Date & Qadr icon */}
+      <div className="flex items-start justify-between">
+        <span className={`text-[10px] sm:text-xs ${day.isMuted ? 'text-muted-foreground/40' : 'text-muted-foreground'}`}>
+          {formatShortDate(day.date)}
+        </span>
+        {day.isQadrNight && (
+          <div className="flex flex-col items-center gap-0">
+            <Moon className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-ramadan-qadr" />
+            <span className="text-[6px] sm:text-[7px] font-medium text-ramadan-qadr/80 leading-tight">Laylatul</span>
+            <span className="text-[6px] sm:text-[7px] font-medium text-ramadan-qadr/80 leading-tight">Qadr</span>
+          </div>
+        )}
+      </div>
 
       {/* Content */}
       <div className="flex-1 flex flex-col justify-center items-center text-center gap-0.5">
@@ -114,9 +123,6 @@ function CalendarCell({ day, eid29, eid30, onClick }: { day: CalendarDay; eid29:
 
         {day.fastingDay && (
           <>
-            {day.isQadrNight && (
-              <Sparkles className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-ramadan-qadr animate-pulse-glow" />
-            )}
             <span className={`text-xs sm:text-sm font-semibold leading-tight ${
               day.isQadrNight ? 'text-ramadan-qadr' :
               day.isLastTen ? 'text-ramadan-sunset' :
@@ -124,9 +130,6 @@ function CalendarCell({ day, eid29, eid30, onClick }: { day: CalendarDay; eid29:
             }`}>
               {getOrdinal(day.fastingDay)} Fast
             </span>
-            {day.isQadrNight && (
-              <span className="text-[8px] sm:text-[9px] font-medium text-ramadan-qadr/80">Qadr</span>
-            )}
           </>
         )}
 
