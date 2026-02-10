@@ -8,7 +8,6 @@ interface Props {
 }
 
 const DAY_HEADERS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-const MONTH_NAMES: Record<number, string> = { 1: 'February', 2: 'March' };
 
 export function RamadanCalendar({ days, startOption, onDayClick }: Props) {
   // Group days into weeks of 7
@@ -20,8 +19,24 @@ export function RamadanCalendar({ days, startOption, onDayClick }: Props) {
   const eid29 = getEidDate29(startOption);
   const eid30 = getEidDate30(startOption);
 
+  // Detect month transition for inline label
+  const monthTransitionWeek = weeks.findIndex((week, wi) =>
+    wi > 0 && week[0].month !== weeks[wi - 1][0].month
+  );
+
   return (
     <section className="max-w-4xl mx-auto px-4 pb-12">
+      {/* Inline month flow label */}
+      <div className="flex items-center gap-3 mb-4">
+        <h3 className="font-display text-xl sm:text-2xl md:text-3xl font-bold month-gradient">
+          February
+        </h3>
+        <span className="text-muted-foreground text-lg">→</span>
+        <h3 className="font-display text-xl sm:text-2xl md:text-3xl font-bold month-gradient">
+          March 2026
+        </h3>
+      </div>
+
       {/* Day of week headers */}
       <div className="grid grid-cols-7 gap-1.5 sm:gap-2 mb-1">
         {DAY_HEADERS.map(d => (
@@ -31,23 +46,22 @@ export function RamadanCalendar({ days, startOption, onDayClick }: Props) {
         ))}
       </div>
 
-      {weeks.map((week, wi) => {
-        const showMonthLabel = wi === 0 || week[0].month !== weeks[wi - 1][0].month;
-        return (
-          <div key={wi}>
-            {showMonthLabel && (
-              <h3 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold mt-6 mb-3 month-gradient">
-                {MONTH_NAMES[week[0].month]} 2026
-              </h3>
-            )}
-            <div className="grid grid-cols-7 gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
-              {week.map((day, di) => (
-                <CalendarCell key={di} day={day} eid29={eid29} eid30={eid30} onClick={() => onDayClick(day)} />
-              ))}
+      {weeks.map((week, wi) => (
+        <div key={wi}>
+          {wi === monthTransitionWeek && (
+            <div className="flex items-center gap-2 my-2">
+              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-ramadan-amber/30 to-transparent" />
+              <span className="text-xs text-muted-foreground font-medium px-2">March</span>
+              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-ramadan-amber/30 to-transparent" />
             </div>
+          )}
+          <div className="grid grid-cols-7 gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
+            {week.map((day, di) => (
+              <CalendarCell key={di} day={day} eid29={eid29} eid30={eid30} onClick={() => onDayClick(day)} />
+            ))}
           </div>
-        );
-      })}
+        </div>
+      ))}
 
       {/* Dual Eid note */}
       <div className="mt-6 text-center text-sm text-muted-foreground italic bg-muted/30 rounded-lg p-4 border border-border">
@@ -72,11 +86,11 @@ function CalendarCell({ day, eid29, eid30, onClick }: { day: CalendarDay; eid29:
   } else if (day.isFirstTarawih) {
     cellClass += "bg-ramadan-tarawih/12 border border-ramadan-tarawih/25 glow-border-tarawih hover:bg-ramadan-tarawih/20";
   } else if (day.isQadrNight) {
-    cellClass += "bg-ramadan-qadr/15 border border-ramadan-qadr/30 glow-border-qadr hover:bg-ramadan-qadr/25";
+    cellClass += "bg-ramadan-qadr/20 border border-ramadan-qadr/40 glow-border-qadr hover:bg-ramadan-qadr/30";
   } else if (day.isLastTen) {
-    cellClass += "bg-ramadan-sunset/18 border border-ramadan-sunset/35 glow-border-amber-strong hover:bg-ramadan-sunset/28";
+    cellClass += "bg-ramadan-sunset/25 border border-ramadan-sunset/45 glow-border-amber-strong hover:bg-ramadan-sunset/35";
   } else if (day.fastingDay) {
-    cellClass += "bg-ramadan-amber/12 border border-ramadan-amber/25 glow-border-amber hover:bg-ramadan-amber/20";
+    cellClass += "bg-ramadan-amber/18 border border-ramadan-amber/30 glow-border-amber hover:bg-ramadan-amber/25";
   }
 
   return (
