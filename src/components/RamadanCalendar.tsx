@@ -1,5 +1,5 @@
 import { CalendarDay, getOrdinal, formatShortDate, formatEidLabel, getEidDate29, getEidDate30, type StartDate } from "@/lib/ramadan-data";
-import { Moon, Star } from "lucide-react";
+import { Moon } from "lucide-react";
 
 interface Props {
   days: CalendarDay[];
@@ -50,9 +50,9 @@ export function RamadanCalendar({ days, startOption, onDayClick }: Props) {
         <div key={wi}>
           {wi === monthTransitionWeek && (
             <div className="flex items-center gap-2 my-2">
-              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-ramadan-amber/30 to-transparent" />
+              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
               <span className="text-xs text-muted-foreground font-medium px-2">March</span>
-              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-ramadan-amber/30 to-transparent" />
+              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
             </div>
           )}
           <div className="grid grid-cols-7 gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
@@ -64,9 +64,9 @@ export function RamadanCalendar({ days, startOption, onDayClick }: Props) {
       ))}
 
       {/* Dual Eid note */}
-      <div className="mt-6 text-center text-sm text-muted-foreground italic bg-muted/30 rounded-lg p-4 border border-border">
-        <p>Eid al-Fitr if 29 days: <strong className="text-ramadan-eid">{formatEidLabel(eid29)}</strong></p>
-        <p>Eid al-Fitr if 30 days: <strong className="text-ramadan-eid">{formatEidLabel(eid30)}</strong></p>
+      <div className="mt-6 text-center text-sm text-muted-foreground italic bg-card rounded-lg p-4 border border-primary/15">
+        <p>Eid al-Fitr if 29 days: <strong className="text-primary">{formatEidLabel(eid29)}</strong></p>
+        <p>Eid al-Fitr if 30 days: <strong className="text-primary">{formatEidLabel(eid30)}</strong></p>
         <p className="mt-2 text-xs">Exact date depends on local moon sighting.</p>
       </div>
     </section>
@@ -78,19 +78,19 @@ function CalendarCell({ day, eid29, eid30, onClick }: { day: CalendarDay; eid29:
   cellClass += "min-h-[72px] sm:min-h-[90px] md:min-h-[105px] p-1.5 sm:p-2 md:p-2.5 ";
 
   if (day.isMuted) {
-    cellClass += "bg-muted/30 text-muted-foreground/50 hover:bg-muted/50";
+    cellClass += "bg-muted/20 text-muted-foreground/50 hover:bg-muted/30";
   } else if (day.isDualEidCell) {
-    cellClass += "bg-gradient-to-b from-ramadan-eid/20 to-ramadan-amber/15 border border-ramadan-eid/30 hover:border-ramadan-eid/50";
+    cellClass += "bg-card border border-primary/30 hover:border-primary/50 shadow-sm";
   } else if (day.isEidIf30) {
-    cellClass += "bg-ramadan-eid/15 border border-ramadan-eid/30 glow-border-eid hover:bg-ramadan-eid/25";
+    cellClass += "bg-card border border-primary/30 shadow-sm hover:shadow-md";
   } else if (day.isFirstTarawih) {
-    cellClass += "bg-ramadan-tarawih/12 border border-ramadan-tarawih/25 glow-border-tarawih hover:bg-ramadan-tarawih/20";
+    cellClass += "bg-card border border-primary/20 shadow-sm hover:shadow-md";
   } else if (day.isQadrNight) {
-    cellClass += "bg-ramadan-qadr/20 border border-ramadan-qadr/40 glow-border-qadr hover:bg-ramadan-qadr/30";
+    cellClass += "bg-accent/12 border border-accent/30 hover:border-accent/45 shadow-sm";
   } else if (day.isLastTen) {
-    cellClass += "bg-ramadan-sunset/25 border border-ramadan-sunset/45 glow-border-amber-strong hover:bg-ramadan-sunset/35";
+    cellClass += "bg-primary/12 border border-primary/35 shadow-sm hover:shadow-md";
   } else if (day.fastingDay) {
-    cellClass += "bg-ramadan-amber/18 border border-ramadan-amber/30 glow-border-amber hover:bg-ramadan-amber/25";
+    cellClass += "bg-card border border-primary/15 shadow-sm hover:shadow-md";
   }
 
   return (
@@ -102,9 +102,9 @@ function CalendarCell({ day, eid29, eid30, onClick }: { day: CalendarDay; eid29:
         </span>
         {day.isQadrNight && (
           <div className="flex flex-col items-center gap-0">
-            <Moon className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-ramadan-qadr" />
-            <span className="text-[6px] sm:text-[7px] font-medium text-ramadan-qadr/80 leading-tight">Laylatul</span>
-            <span className="text-[6px] sm:text-[7px] font-medium text-ramadan-qadr/80 leading-tight">Qadr</span>
+            <Moon className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-accent" />
+            <span className="text-[6px] sm:text-[7px] font-medium text-accent/80 leading-tight">Laylatul</span>
+            <span className="text-[6px] sm:text-[7px] font-medium text-accent/80 leading-tight">Qadr</span>
           </div>
         )}
       </div>
@@ -113,8 +113,8 @@ function CalendarCell({ day, eid29, eid30, onClick }: { day: CalendarDay; eid29:
       <div className="flex-1 flex flex-col justify-center items-center text-center gap-0.5">
         {day.isFirstTarawih && (
           <>
-            <Moon className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-ramadan-tarawih" />
-            <span className="text-[9px] sm:text-[10px] md:text-xs font-medium text-ramadan-tarawih leading-tight">
+            <Moon className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-primary" />
+            <span className="text-[9px] sm:text-[10px] md:text-xs font-medium text-primary leading-tight">
               First Tarawih
             </span>
             <span className="text-[8px] sm:text-[9px] text-muted-foreground">Evening</span>
@@ -124,9 +124,9 @@ function CalendarCell({ day, eid29, eid30, onClick }: { day: CalendarDay; eid29:
         {day.fastingDay && (
           <>
             <span className={`text-xs sm:text-sm font-semibold leading-tight ${
-              day.isQadrNight ? 'text-ramadan-qadr' :
-              day.isLastTen ? 'text-ramadan-sunset' :
-              'text-ramadan-amber'
+              day.isQadrNight ? 'text-accent' :
+              day.isLastTen ? 'text-primary' :
+              'text-foreground'
             }`}>
               {getOrdinal(day.fastingDay)} Fast
             </span>
@@ -136,12 +136,12 @@ function CalendarCell({ day, eid29, eid30, onClick }: { day: CalendarDay; eid29:
         {day.isDualEidCell && (
           <div className="space-y-0.5">
             <div className="flex items-center justify-center gap-0.5">
-              <Star className="h-2.5 w-2.5 text-ramadan-eid" />
-              <span className="text-[9px] sm:text-[10px] font-semibold text-ramadan-eid leading-tight">Eid</span>
+              <Moon className="h-2.5 w-2.5 text-primary" />
+              <span className="text-[9px] sm:text-[10px] font-semibold text-primary leading-tight">Eid</span>
             </div>
-            <span className="text-[7px] sm:text-[8px] text-ramadan-eid/70">if 29 days</span>
+            <span className="text-[7px] sm:text-[8px] text-primary/70">if 29 days</span>
             <div className="border-t border-border/50 pt-0.5 mt-0.5">
-              <span className="text-[9px] sm:text-[10px] font-medium text-ramadan-amber leading-tight">30th Fast</span>
+              <span className="text-[9px] sm:text-[10px] font-medium text-foreground leading-tight">30th Fast</span>
               <span className="text-[7px] sm:text-[8px] text-muted-foreground block">if 30 days</span>
             </div>
           </div>
@@ -149,11 +149,11 @@ function CalendarCell({ day, eid29, eid30, onClick }: { day: CalendarDay; eid29:
 
         {day.isEidIf30 && (
           <>
-            <Star className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-ramadan-eid" />
-            <span className="text-[9px] sm:text-[10px] md:text-xs font-semibold text-ramadan-eid leading-tight">
+            <Moon className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-primary" />
+            <span className="text-[9px] sm:text-[10px] md:text-xs font-semibold text-primary leading-tight">
               Eid al-Fitr
             </span>
-            <span className="text-[7px] sm:text-[8px] text-ramadan-eid/70">if 30 days</span>
+            <span className="text-[7px] sm:text-[8px] text-primary/70">if 30 days</span>
           </>
         )}
 
