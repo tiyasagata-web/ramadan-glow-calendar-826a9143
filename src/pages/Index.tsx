@@ -39,15 +39,15 @@ const Index = () => {
       <header className="relative overflow-hidden py-20 md:py-32 flex flex-col items-center justify-center text-center px-4">
         <div className="absolute inset-0 hero-glow" />
         <div className="relative z-10 max-w-2xl">
-          <div className="mb-5 flex items-center justify-center gap-3 text-ramadan-amber animate-float">
+          <div className="mb-5 flex items-center justify-center gap-3 text-ramadan-amber">
             <Star className="h-4 w-4 opacity-60" />
             <Moon className="h-7 w-7" />
             <Star className="h-4 w-4 opacity-60" />
           </div>
-          <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold text-glow-strong tracking-tight">
+          <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight month-gradient">
             Ramadan 2026
           </h1>
-          <p className="font-display text-lg sm:text-xl md:text-2xl text-muted-foreground text-glow mt-2 mb-8">
+          <p className="font-display text-lg sm:text-xl md:text-2xl text-muted-foreground mt-2 mb-8">
             United States Calendar
           </p>
           <p className="text-muted-foreground leading-relaxed text-sm sm:text-base max-w-xl mx-auto">
@@ -70,14 +70,12 @@ const Index = () => {
           <Button
             variant={startOption === 'feb17' ? 'default' : 'outline'}
             onClick={() => setStartOption('feb17')}
-            className={startOption === 'feb17' ? 'glow-border-amber' : ''}
           >
             February 17 — Astronomical
           </Button>
           <Button
             variant={startOption === 'feb18' ? 'default' : 'outline'}
             onClick={() => setStartOption('feb18')}
-            className={startOption === 'feb18' ? 'glow-border-amber' : ''}
           >
             February 18 — Moon Sighting
           </Button>
@@ -90,10 +88,10 @@ const Index = () => {
       {/* ─── LEGEND ─── */}
       <section className="max-w-4xl mx-auto px-4 py-10">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <LegendItem color="bg-ramadan-amber/20 border-ramadan-amber/30 glow-border-amber" label="Fasting Day" />
-          <LegendItem color="bg-ramadan-sunset/20 border-ramadan-sunset/35 glow-border-amber-strong" label="Last 10 Nights" />
-          <LegendItem color="bg-ramadan-qadr/15 border-ramadan-qadr/30 glow-border-qadr" label="Odd Night (Qadr)" />
-          <LegendItem color="bg-ramadan-eid/15 border-ramadan-eid/30 glow-border-eid" label="Eid al-Fitr" />
+          <LegendItem color="bg-ramadan-amber/12 border-ramadan-amber/22" label="Fasting Day" />
+          <LegendItem color="bg-ramadan-sunset/20 border-ramadan-sunset/35" label="Last 10 Nights" />
+          <LegendItem color="bg-ramadan-qadr/15 border-ramadan-qadr/30" label="Odd Night (Qadr)" />
+          <LegendItem color="bg-ramadan-eid/15 border-ramadan-eid/30" label="Eid al-Fitr" />
         </div>
         <p className="text-muted-foreground text-xs sm:text-sm mt-4 leading-relaxed italic text-center max-w-2xl mx-auto">
           "Laylatul Qadr, the Night of Power, is a deeply sacred night in the last 10 nights of
