@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { RamadanCalendar } from "@/components/RamadanCalendar";
 import { DayDetailModal } from "@/components/DayDetailModal";
+import { LocationSelector } from "@/components/LocationSelector";
 import {
   CalendarDay,
   generateCalendarDays,
@@ -9,12 +10,14 @@ import {
   getGoogleCalendarUrl,
   type StartDate,
 } from "@/lib/ramadan-data";
+import { type LocationData, getDefaultLocation } from "@/lib/prayer-times";
 import { Moon, Star, Download, ExternalLink, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Index = () => {
   const [startOption, setStartOption] = useState<StartDate>('feb17');
   const [selectedDay, setSelectedDay] = useState<CalendarDay | null>(null);
+  const [location, setLocation] = useState<LocationData>(getDefaultLocation);
 
   const days = generateCalendarDays(startOption);
 
@@ -58,8 +61,11 @@ const Index = () => {
         </div>
       </header>
 
+      {/* ─── LOCATION SELECTOR (comes first) ─── */}
+      <LocationSelector location={location} onLocationChange={setLocation} />
+
       {/* ─── START DATE SELECTOR ─── */}
-      <section className="max-w-2xl mx-auto px-4 pt-2 pb-10 text-center">
+      <section className="max-w-2xl mx-auto px-4 pt-2 pb-6 text-center">
         <h2 className="font-display text-xl sm:text-2xl md:text-3xl font-bold mb-2">
           Select Ramadan Start Date
         </h2>
@@ -83,6 +89,13 @@ const Index = () => {
           </Button>
         </div>
       </section>
+
+      {/* ─── HELPER TEXT ─── */}
+      <div className="max-w-4xl mx-auto px-4 pb-4">
+        <p className="text-center text-base sm:text-lg text-muted-foreground font-medium">
+          Click on any day to view full prayer times.
+        </p>
+      </div>
 
       {/* ─── CALENDAR ─── */}
       <RamadanCalendar days={days} startOption={startOption} onDayClick={setSelectedDay} />
@@ -206,7 +219,7 @@ const Index = () => {
       </footer>
 
       {/* ─── DAY DETAIL MODAL ─── */}
-      <DayDetailModal day={selectedDay} onClose={() => setSelectedDay(null)} />
+      <DayDetailModal day={selectedDay} onClose={() => setSelectedDay(null)} location={location} />
     </div>
   );
 };

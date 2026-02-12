@@ -1,17 +1,53 @@
+import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { CalendarDay, getPrayerTimes, getOrdinal, formatShortDate } from "@/lib/ramadan-data";
+import { CalendarDay, getOrdinal } from "@/lib/ramadan-data";
+import { fetchPrayerTimes, METHOD_NAME, type LocationData, type PrayerTimesData } from "@/lib/prayer-times";
 import { format } from "date-fns";
+import { Loader2 } from "lucide-react";
 
 interface Props {
   day: CalendarDay | null;
   onClose: () => void;
+  location: LocationData;
 }
 
-export function DayDetailModal({ day, onClose }: Props) {
+export function DayDetailModal({ day, onClose, location }: Props) {
+  const [prayers, setPrayers] = useState<PrayerTimesData | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!day || (day.isMuted && !day.isFirstTarawih)) {
+      setPrayers(null);
+      return;
+    }
+
+    let cancelled = false;
+    setLoading(true);
+    setError(null);
+
+    fetchPrayerTimes(day.date, location)
+      .then((data) => {
+        if (!cancelled) {
+          setPrayers(data);
+          setLoading(false);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setError("Unable to load prayer times. Please try again.");
+          setLoading(false);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [day, location]);
+
   if (!day) return null;
 
-  const prayers = getPrayerTimes(day.date);
-  const showPrayers = day.fastingDay || day.isFirstTarawih;
+  const showPrayers = day.fastingDay || day.isFirstTarawih || day.isDualEidCell || day.isEidIf30;
 
   return (
     <Dialog open={!!day} onOpenChange={(open) => !open && onClose()}>
@@ -37,40 +73,76 @@ export function DayDetailModal({ day, onClose }: Props) {
 
           {day.isQadrNight && (
             <p className="text-ramadan-qadr font-medium">
-              ✨ Odd Night (Laylatul Qadr — {getOrdinal(day.qadrNightNumber!)} Night, evening)
+              🌙 Odd Night (Laylatul Qadr — {getOrdinal(day.qadrNightNumber!)} Night, evening)
             </p>
           )}
 
           {day.isLastTen && !day.isQadrNight && (
-            <p className="text-ramadan-sunset font-medium">🔥 Last 10 Nights</p>
+            <p className="text-ramadan-sunset font-medium">🌙 Last 10 Nights</p>
           )}
 
           {day.isDualEidCell && (
             <div className="space-y-1 text-sm">
-              <p className="text-ramadan-eid font-medium">☪ Eid al-Fitr — if Ramadan is 29 days</p>
+              <p className="text-ramadan-eid font-medium">🌙 Eid al-Fitr — if Ramadan is 29 days</p>
               <p className="text-ramadan-amber font-medium">or 30th Fast — if Ramadan is 30 days</p>
             </div>
           )}
 
           {day.isEidIf30 && (
-            <p className="text-ramadan-eid font-medium">☪ Eid al-Fitr — if Ramadan is 30 days</p>
+            <p className="text-ramadan-eid font-medium">🌙 Eid al-Fitr — if Ramadan is 30 days</p>
           )}
 
           {showPrayers && (
             <div className="bg-muted/50 rounded-lg p-4 space-y-2">
               <h4 className="font-semibold text-xs text-muted-foreground uppercase tracking-widest">
-                Prayer Times (NYC area, approximate)
+                Prayer Times — {location.city}, {location.state}
               </h4>
-              {Object.entries(prayers).map(([name, time]) => (
-                <div key={name} className="flex justify-between text-sm">
-                  <span className="capitalize font-medium">{name}</span>
-                  <span className="text-muted-foreground">{time}</span>
+
+              {loading && (
+                <div className="flex items-center justify-center py-4">
+                  <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
                 </div>
-              ))}
+              )}
+
+              {error && (
+                <p className="text-sm text-destructive py-2">{error}</p>
+              )}
+
+              {prayers && !loading && (
+                <>
+                  {[
+                    { label: "Fajr", value: prayers.fajr },
+                    { label: "Sunrise", value: prayers.sunrise },
+                    { label: "Dhuhr", value: prayers.dhuhr },
+                    { label: "Asr", value: prayers.asr },
+                    { label: "Maghrib", value: prayers.maghrib },
+                    { label: "Isha", value: prayers.isha },
+                  ].map(({ label, value }) => (
+                    <div key={label} className="flex justify-between text-sm">
+                      <span className="font-medium">{label}</span>
+                      <span className="text-muted-foreground">{value}</span>
+                    </div>
+                  ))}
+
+                  <div className="border-t border-border pt-2 mt-2">
+                    <div className="flex justify-between text-sm">
+                      <span className="font-medium text-ramadan-qadr">Last Third Begins</span>
+                      <span className="text-ramadan-qadr">{prayers.lastThirdBegins}</span>
+                    </div>
+                    <p className="text-[10px] text-muted-foreground mt-1 italic">
+                      Calculated as: Fajr − (Night Duration ÷ 3), where Night = Maghrib → Fajr
+                    </p>
+                  </div>
+                </>
+              )}
+
+              <p className="text-[10px] text-muted-foreground mt-3 pt-2 border-t border-border/50">
+                Prayer times calculated using {METHOD_NAME} via the AlAdhan API for {location.city}, {location.state}.
+              </p>
             </div>
           )}
 
-          {day.isMuted && (
+          {day.isMuted && !day.isFirstTarawih && (
             <p className="text-muted-foreground text-sm">This day is outside the fasting period.</p>
           )}
         </div>
