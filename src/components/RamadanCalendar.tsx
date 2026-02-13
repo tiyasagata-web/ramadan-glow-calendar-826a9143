@@ -27,7 +27,7 @@ export function RamadanCalendar({ days, startOption, onDayClick }: Props) {
   return (
     <section className="max-w-4xl mx-auto px-4 pb-12">
       {/* Inline month flow label */}
-      <div className="flex items-center gap-3 mb-4">
+      <div className="flex items-center gap-3 mb-1">
         <h3 className="font-display text-xl sm:text-2xl md:text-3xl font-bold month-gradient">
           February
         </h3>
@@ -36,6 +36,9 @@ export function RamadanCalendar({ days, startOption, onDayClick }: Props) {
           March 2026
         </h3>
       </div>
+      <p className="text-center text-base sm:text-lg text-muted-foreground font-medium mb-4">
+        Click on any day to view full prayer times.
+      </p>
 
       {/* Day of week headers */}
       <div className="grid grid-cols-7 gap-1.5 sm:gap-2 mb-1">
