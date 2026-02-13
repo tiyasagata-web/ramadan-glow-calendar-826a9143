@@ -73,7 +73,7 @@ export function LocationSelector({ location, onLocationChange }: Props) {
   };
 
   return (
-    <section className="max-w-2xl mx-auto px-4 pt-2 pb-6 text-center">
+    <section className="max-w-2xl mx-auto px-4 pt-0 pb-4 text-center">
       <h2 className="font-display text-lg sm:text-xl font-bold mb-1 flex items-center justify-center gap-2">
         <MapPin className="h-4 w-4 text-ramadan-amber" />
         Your Location

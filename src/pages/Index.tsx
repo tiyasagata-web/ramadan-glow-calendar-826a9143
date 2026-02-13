@@ -39,7 +39,7 @@ const Index = () => {
       <ThemeToggle />
 
       {/* ─── HERO ─── */}
-      <header className="relative overflow-hidden py-16 md:py-24 flex flex-col items-center justify-center text-center px-4">
+      <header className="relative overflow-hidden py-12 md:py-16 flex flex-col items-center justify-center text-center px-4">
         <div className="absolute inset-0 hero-glow" />
         <div className="relative z-10 max-w-2xl">
           <div className="mb-5 flex items-center justify-center gap-3 text-ramadan-amber animate-float">
@@ -50,7 +50,7 @@ const Index = () => {
           <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold text-glow-strong tracking-tight">
             Ramadan 2026
           </h1>
-          <p className="font-display text-lg sm:text-xl md:text-2xl text-muted-foreground text-glow mt-2 mb-8">
+          <p className="font-display text-lg sm:text-xl md:text-2xl text-muted-foreground text-glow mt-2 mb-4">
             United States Calendar
           </p>
           <p className="text-muted-foreground leading-relaxed text-sm sm:text-base max-w-xl mx-auto">
