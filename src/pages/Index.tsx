@@ -39,7 +39,7 @@ const Index = () => {
       <ThemeToggle />
 
       {/* ─── HERO ─── */}
-      <header className="relative overflow-hidden py-20 md:py-32 flex flex-col items-center justify-center text-center px-4">
+      <header className="relative overflow-hidden py-16 md:py-24 flex flex-col items-center justify-center text-center px-4">
         <div className="absolute inset-0 hero-glow" />
         <div className="relative z-10 max-w-2xl">
           <div className="mb-5 flex items-center justify-center gap-3 text-ramadan-amber animate-float">
@@ -89,13 +89,6 @@ const Index = () => {
           </Button>
         </div>
       </section>
-
-      {/* ─── HELPER TEXT ─── */}
-      <div className="max-w-4xl mx-auto px-4 pb-4">
-        <p className="text-center text-base sm:text-lg text-muted-foreground font-medium">
-          Click on any day to view full prayer times.
-        </p>
-      </div>
 
       {/* ─── CALENDAR ─── */}
       <RamadanCalendar days={days} startOption={startOption} onDayClick={setSelectedDay} />
@@ -202,19 +195,16 @@ const Index = () => {
 
         <div className="pt-4 border-t border-border space-y-1">
           <p className="text-sm text-muted-foreground">
-            Calendar concept by{' '}
-            <a
-              href="https://www.linkedin.com/in/spatial-uzair/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-semibold text-foreground hover:text-ramadan-amber transition-colors"
-            >
-              UZAIR KHAN
-            </a>
+            With Love,
           </p>
-          <p className="text-xs text-muted-foreground">
-            Made with care for the Muslim community in the USA
-          </p>
+          <a
+            href="https://www.linkedin.com/in/ahmednusrat/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm font-semibold text-foreground hover:text-ramadan-amber transition-colors"
+          >
+            Nusrat
+          </a>
         </div>
       </footer>
 
