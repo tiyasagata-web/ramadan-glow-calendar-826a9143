@@ -183,32 +183,12 @@ const Index = () => {
 
       {/* ─── FOOTER ─── */}
       <footer className="max-w-2xl mx-auto px-4 py-12 text-center space-y-4">
-        <p className="text-xs text-muted-foreground leading-relaxed">
-          ⚪ Moon sighting dates may vary by region. This calendar provides both astronomical
-          calculation and traditional sighting options. Always confirm with your local community
-          or Islamic authority.
+        <p className="text-sm text-muted-foreground">
+          For the Muslim community in the USA
         </p>
 
-        <p className="font-amiri text-lg text-foreground/80">
-          May this Ramadan bring you peace, forgiveness, and barakah.
-        </p>
-
-        <div className="pt-4 border-t border-border space-y-1">
+        <div className="space-y-1">
           <p className="text-sm text-muted-foreground">
-            Calendar concept by{' '}
-            <a
-              href="https://www.linkedin.com/in/spatial-uzair/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-semibold text-foreground hover:text-ramadan-amber transition-colors"
-            >
-              UZAIR KHAN
-            </a>
-          </p>
-          <p className="text-xs text-muted-foreground">
-            Made with care for the Muslim community in the USA
-          </p>
-          <p className="text-sm text-muted-foreground mt-3">
             With Love,
           </p>
           <a
@@ -217,8 +197,29 @@ const Index = () => {
             rel="noopener noreferrer"
             className="text-sm font-semibold text-foreground hover:text-ramadan-amber transition-colors"
           >
-            Nusrat
+            Nusrat Ahmed
           </a>
+        </div>
+
+        <p className="text-xs text-muted-foreground">
+          Calendar inspiration from{' '}
+          <a
+            href="https://www.linkedin.com/in/spatial-uzair/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold text-foreground hover:text-ramadan-amber transition-colors"
+          >
+            Uzair Khan's
+          </a>{' '}
+          UK calendar
+        </p>
+
+        <div className="pt-4 border-t border-border">
+          <p className="text-xs text-muted-foreground leading-relaxed">
+            © 2026 Ramadan Calendar USA. All rights reserved. Moon sighting dates may vary by region.
+            This calendar includes both astronomical calculations and traditional sighting estimates.
+            Please confirm with your local community or Islamic authority.
+          </p>
         </div>
       </footer>
 
