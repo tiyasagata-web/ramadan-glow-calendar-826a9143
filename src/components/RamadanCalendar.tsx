@@ -36,7 +36,7 @@ export function RamadanCalendar({ days, startOption, onDayClick }: Props) {
           March 2026
         </h3>
       </div>
-      <p className="text-center text-base sm:text-lg text-muted-foreground font-medium mb-4">
+      <p className="text-left text-base sm:text-lg text-muted-foreground font-medium mb-4">
         Click on any day to view full prayer times.
       </p>
 
