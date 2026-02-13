@@ -195,6 +195,20 @@ const Index = () => {
 
         <div className="pt-4 border-t border-border space-y-1">
           <p className="text-sm text-muted-foreground">
+            Calendar concept by{' '}
+            <a
+              href="https://www.linkedin.com/in/spatial-uzair/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-foreground hover:text-ramadan-amber transition-colors"
+            >
+              UZAIR KHAN
+            </a>
+          </p>
+          <p className="text-xs text-muted-foreground">
+            Made with care for the Muslim community in the USA
+          </p>
+          <p className="text-sm text-muted-foreground mt-3">
             With Love,
           </p>
           <a
