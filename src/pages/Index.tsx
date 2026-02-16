@@ -110,7 +110,7 @@ const Index = () => {
           <LegendItem color="bg-ramadan-eid/15 border-ramadan-eid/30 glow-border-eid" label="Eid al-Fitr" />
         </div>
         <p className="text-muted-foreground text-xs sm:text-sm mt-4 leading-relaxed text-center max-w-2xl mx-auto">
-          <strong className="text-foreground not-italic">Note:</strong> The odd night begins at Maghrib the evening before the numbered fast. For example, after Maghrib on the 20th fast, the 21st night begins and continues until Fajr.
+          <strong className="text-foreground not-italic">Note:</strong> In Islam, the night begins before the day. This means the "odd night" comes before the corresponding fast day. For example, after Maghrib on the 20th fast, the 21st night begins and continues until Fajr, after which the 21st fast day starts.
         </p>
         <p className="text-muted-foreground text-xs sm:text-sm mt-3 leading-relaxed italic text-center max-w-2xl mx-auto">
           "Laylatul Qadr, the Night of Power, is a deeply sacred night in the last 10 nights of
