@@ -99,6 +99,7 @@ export function LocationSelector({ location, onLocationChange }: Props) {
 
       <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
         {/* City Dropdown */}
+
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button variant="outline" className="min-w-[200px] justify-between">
@@ -141,6 +142,9 @@ export function LocationSelector({ location, onLocationChange }: Props) {
             </div>
           </PopoverContent>
         </Popover>
+
+        {/* OR Divider */}
+        <span className="text-lg tracking-wide text-muted-foreground/70 select-none px-1">OR</span>
 
         {/* ZIP Code Input */}
         <div className="flex items-center gap-2">
