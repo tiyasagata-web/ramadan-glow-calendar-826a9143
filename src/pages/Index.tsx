@@ -101,7 +101,10 @@ const Index = () => {
           <LegendItem color="bg-ramadan-qadr/15 border-ramadan-qadr/30 glow-border-qadr" label="Odd Night (Qadr)" />
           <LegendItem color="bg-ramadan-eid/15 border-ramadan-eid/30 glow-border-eid" label="Eid al-Fitr" />
         </div>
-        <p className="text-muted-foreground text-xs sm:text-sm mt-4 leading-relaxed italic text-center max-w-2xl mx-auto">
+        <p className="text-muted-foreground text-xs sm:text-sm mt-4 leading-relaxed text-center max-w-2xl mx-auto">
+          <strong className="text-foreground not-italic">Note:</strong> The odd night begins at Maghrib the evening before the numbered fast. For example, after Maghrib on the 20th fast, the 21st night begins and continues until Fajr.
+        </p>
+        <p className="text-muted-foreground text-xs sm:text-sm mt-3 leading-relaxed italic text-center max-w-2xl mx-auto">
           "Laylatul Qadr, the Night of Power, is a deeply sacred night in the last 10 nights of
           Ramadan when the Qur'an was first revealed. Many Muslims seek it on the odd nights,
           dedicating the evening to prayer, reflection, and worship."
