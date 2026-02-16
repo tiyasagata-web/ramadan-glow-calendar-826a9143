@@ -15,7 +15,7 @@ import { Moon, Star, Download, ExternalLink, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Index = () => {
-  const [startOption, setStartOption] = useState<StartDate>('feb17');
+  const [startOption, setStartOption] = useState<StartDate>('feb18');
   const [selectedDay, setSelectedDay] = useState<CalendarDay | null>(null);
   const [location, setLocation] = useState<LocationData>(getDefaultLocation);
 
@@ -74,18 +74,18 @@ const Index = () => {
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <Button
-            variant={startOption === 'feb17' ? 'default' : 'outline'}
-            onClick={() => setStartOption('feb17')}
-            className={startOption === 'feb17' ? 'glow-border-amber' : ''}
-          >
-            February 17 — Astronomical
-          </Button>
-          <Button
             variant={startOption === 'feb18' ? 'default' : 'outline'}
             onClick={() => setStartOption('feb18')}
             className={startOption === 'feb18' ? 'glow-border-amber' : ''}
           >
-            February 18 — Moon Sighting
+            February 18 — Astronomical
+          </Button>
+          <Button
+            variant={startOption === 'feb19' ? 'default' : 'outline'}
+            onClick={() => setStartOption('feb19')}
+            className={startOption === 'feb19' ? 'glow-border-amber' : ''}
+          >
+            February 19 — Moon Sighting
           </Button>
         </div>
       </section>

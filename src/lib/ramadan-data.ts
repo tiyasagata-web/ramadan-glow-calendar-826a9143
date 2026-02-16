@@ -21,7 +21,7 @@ export interface CalendarDay {
   isMuted: boolean;
 }
 
-export type StartDate = 'feb17' | 'feb18';
+export type StartDate = 'feb18' | 'feb19';
 
 export function getOrdinal(n: number): string {
   const s = ['th', 'st', 'nd', 'rd'];
@@ -30,9 +30,9 @@ export function getOrdinal(n: number): string {
 }
 
 export function generateCalendarDays(startOption: StartDate): CalendarDay[] {
-  const startDate = startOption === 'feb17'
-    ? new Date(2026, 1, 17)
-    : new Date(2026, 1, 18);
+  const startDate = startOption === 'feb18'
+    ? new Date(2026, 1, 18)
+    : new Date(2026, 1, 19);
 
   const firstTarawih = new Date(startDate);
   firstTarawih.setDate(firstTarawih.getDate() - 1);
@@ -107,11 +107,11 @@ export function getPrayerTimes(date: Date): PrayerTimes {
 }
 
 export function getEidDate29(startOption: StartDate): Date {
-  return startOption === 'feb17' ? new Date(2026, 2, 18) : new Date(2026, 2, 19);
+  return startOption === 'feb18' ? new Date(2026, 2, 19) : new Date(2026, 2, 20);
 }
 
 export function getEidDate30(startOption: StartDate): Date {
-  return startOption === 'feb17' ? new Date(2026, 2, 19) : new Date(2026, 2, 20);
+  return startOption === 'feb18' ? new Date(2026, 2, 20) : new Date(2026, 2, 21);
 }
 
 const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -132,7 +132,7 @@ function icsDate(d: Date): string {
 }
 
 export function generateICS(startOption: StartDate): string {
-  const start = startOption === 'feb17' ? new Date(2026, 1, 17) : new Date(2026, 1, 18);
+  const start = startOption === 'feb18' ? new Date(2026, 1, 18) : new Date(2026, 1, 19);
 
   let cal = [
     'BEGIN:VCALENDAR',
@@ -184,7 +184,7 @@ function vevent(summary: string, date: Date, description: string): string[] {
 }
 
 export function getGoogleCalendarUrl(startOption: StartDate): string {
-  const start = startOption === 'feb17' ? '20260217' : '20260218';
-  const end = startOption === 'feb17' ? '20260218' : '20260219';
+  const start = startOption === 'feb18' ? '20260218' : '20260219';
+  const end = startOption === 'feb18' ? '20260219' : '20260220';
   return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('Start of Ramadan 2026')}&dates=${start}/${end}&details=${encodeURIComponent('The blessed month of Ramadan begins. May it be filled with blessings and peace.')}`;
 }
