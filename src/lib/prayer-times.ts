@@ -14,6 +14,7 @@ export interface LocationData {
   latitude: number;
   longitude: number;
   timezone: string;
+  zip?: string;
 }
 
 const CALCULATION_METHOD = 2; // ISNA (Islamic Society of North America)
