@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { MapPin, Navigation, ChevronDown, Search } from "lucide-react";
+import { MapPin, ChevronDown, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -13,7 +13,9 @@ interface Props {
 export function LocationSelector({ location, onLocationChange }: Props) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
-  const [detecting, setDetecting] = useState(false);
+  const [zip, setZip] = useState("");
+  const [zipError, setZipError] = useState("");
+  const [loadingZip, setLoadingZip] = useState(false);
 
   const filteredCities = useMemo(() => {
     if (!search.trim()) return US_CITIES;
@@ -25,38 +27,49 @@ export function LocationSelector({ location, onLocationChange }: Props) {
     );
   }, [search]);
 
-  const handleAutoDetect = async () => {
-    setDetecting(true);
+  const handleZipSubmit = async () => {
+    const trimmed = zip.trim();
+    if (!/^\d{5}$/.test(trimmed)) {
+      setZipError("Enter a valid 5-digit U.S. ZIP code");
+      return;
+    }
+    setZipError("");
+    setLoadingZip(true);
     try {
-      const pos = await new Promise<GeolocationPosition>((resolve, reject) =>
-        navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 10000 })
-      );
+      const res = await fetch(`https://api.zippopotam.us/us/${trimmed}`);
+      if (!res.ok) throw new Error("Invalid ZIP");
+      const data = await res.json();
+      const place = data.places?.[0];
+      if (!place) throw new Error("No results");
 
-      const { latitude, longitude } = pos.coords;
+      const lat = parseFloat(place.latitude);
+      const lng = parseFloat(place.longitude);
+      const state = place["state abbreviation"] || place.state || "";
+      const city = place["place name"] || "";
 
-      // Find nearest US city
-      let nearest = US_CITIES[0];
+      // Determine timezone from nearest city or fallback
+      let tz = "America/New_York";
       let minDist = Infinity;
       for (const c of US_CITIES) {
-        const dist = Math.hypot(c.lat - latitude, c.lng - longitude);
+        const dist = Math.hypot(c.lat - lat, c.lng - lng);
         if (dist < minDist) {
           minDist = dist;
-          nearest = c;
+          tz = c.tz;
         }
       }
 
       onLocationChange({
-        city: nearest.city,
-        state: nearest.state,
-        latitude: nearest.lat,
-        longitude: nearest.lng,
-        timezone: nearest.tz,
+        city,
+        state,
+        latitude: lat,
+        longitude: lng,
+        timezone: tz,
+        zip: trimmed,
       });
     } catch {
-      // Fallback to default
-      onLocationChange(getDefaultLocation());
+      setZipError("Could not find that ZIP code. Please try again.");
     } finally {
-      setDetecting(false);
+      setLoadingZip(false);
     }
   };
 
@@ -70,6 +83,8 @@ export function LocationSelector({ location, onLocationChange }: Props) {
     });
     setOpen(false);
     setSearch("");
+    setZip("");
+    setZipError("");
   };
 
   return (
@@ -79,10 +94,11 @@ export function LocationSelector({ location, onLocationChange }: Props) {
         Your Location
       </h2>
       <p className="text-muted-foreground mb-4 text-sm">
-        Prayer times are calculated for your selected city.
+        Select a city or enter your ZIP code for precise prayer times.
       </p>
 
       <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
+        {/* City Dropdown */}
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button variant="outline" className="min-w-[200px] justify-between">
@@ -126,17 +142,37 @@ export function LocationSelector({ location, onLocationChange }: Props) {
           </PopoverContent>
         </Popover>
 
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={handleAutoDetect}
-          disabled={detecting}
-          className="text-xs"
-        >
-          <Navigation className="h-3.5 w-3.5 mr-1.5" />
-          {detecting ? "Detecting..." : "Auto-detect"}
-        </Button>
+        {/* ZIP Code Input */}
+        <div className="flex items-center gap-2">
+          <Input
+            placeholder="Enter ZIP Code"
+            value={zip}
+            onChange={(e) => {
+              setZip(e.target.value.replace(/\D/g, "").slice(0, 5));
+              setZipError("");
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") handleZipSubmit();
+            }}
+            className="w-[140px] h-9 text-sm"
+            maxLength={5}
+            inputMode="numeric"
+          />
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleZipSubmit}
+            disabled={loadingZip}
+            className="text-xs"
+          >
+            {loadingZip ? "Looking up..." : "Go"}
+          </Button>
+        </div>
       </div>
+
+      {zipError && (
+        <p className="text-destructive text-xs mt-2">{zipError}</p>
+      )}
     </section>
   );
 }

@@ -90,6 +90,14 @@ const Index = () => {
         </div>
       </section>
 
+      {/* ─── ACTIVE LOCATION LABEL ─── */}
+      <p className="text-center text-sm text-muted-foreground mb-2">
+        Prayer times for:{' '}
+        <span className="font-semibold text-foreground">
+          {location.city}, {location.state}{location.zip ? ` ${location.zip}` : ''}
+        </span>
+      </p>
+
       {/* ─── CALENDAR ─── */}
       <RamadanCalendar days={days} startOption={startOption} onDayClick={setSelectedDay} />
 
