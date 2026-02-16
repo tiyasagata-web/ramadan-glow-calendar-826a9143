@@ -1,5 +1,7 @@
 import { CalendarDay, getOrdinal, formatShortDate, formatEidLabel, getEidDate29, getEidDate30, type StartDate } from "@/lib/ramadan-data";
 import { Moon, Star } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { MobileCalendar } from "./MobileCalendar";
 
 interface Props {
   days: CalendarDay[];
@@ -10,6 +12,11 @@ interface Props {
 const DAY_HEADERS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 export function RamadanCalendar({ days, startOption, onDayClick }: Props) {
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return <MobileCalendar days={days} startOption={startOption} onDayClick={onDayClick} />;
+  }
   // Group days into weeks of 7
   const weeks: CalendarDay[][] = [];
   for (let i = 0; i < days.length; i += 7) {
