@@ -147,6 +147,9 @@
     box-shadow: 0 1px 4px hsl(var(--ramadan-tarawih) / 0.12),
                 0 2px 8px hsl(var(--ramadan-tarawih) / 0.06);
   }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
   .hero-glow {
     background: radial-gradient(
       ellipse 80% 60% at 50% 40%,
