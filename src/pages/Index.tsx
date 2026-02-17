@@ -57,17 +57,32 @@ const Index = () => {
     try {
       const ics = await generateICS(startOption, location);
       const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'ramadan-2026.ics';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
+
+      if (exportModal.type === "google") {
+        // Download the file first, then open Google Calendar import
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'ramadan-2026.ics';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        // Open Google Calendar import page
+        window.open('https://calendar.google.com/calendar/r/settings/export', '_blank');
+      } else {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'ramadan-2026.ics';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
     } finally {
       setExporting(false);
-      setExportModal({ open: false, type: "ics" });
+      setExportModal({ open: false, type: exportModal.type });
     }
   };
 
