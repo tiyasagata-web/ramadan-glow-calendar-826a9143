@@ -1,3 +1,5 @@
+import { fetchPrayerTimes, type LocationData, type PrayerTimesData } from './prayer-times';
+
 export interface PrayerTimes {
   fajr: string;
   dhuhr: string;
@@ -131,46 +133,24 @@ function icsDate(d: Date): string {
   return `${d.getFullYear()}${pad2(d.getMonth() + 1)}${pad2(d.getDate())}`;
 }
 
-export function generateICS(startOption: StartDate): string {
-  const start = startOption === 'feb18' ? new Date(2026, 1, 18) : new Date(2026, 1, 19);
-
-  let cal = [
-    'BEGIN:VCALENDAR',
-    'VERSION:2.0',
-    'PRODID:-//Ramadan2026//EN',
-    'CALSCALE:GREGORIAN',
-  ];
-
-  // Add first tarawih
-  const tarawih = new Date(start);
-  tarawih.setDate(tarawih.getDate() - 1);
-  cal.push(...vevent('First Tarawih Night', tarawih, 'The first Tarawih prayer of Ramadan 2026.'));
-
-  // Add fasting days
-  for (let i = 0; i < 29; i++) {
-    const d = new Date(start);
-    d.setDate(d.getDate() + i);
-    cal.push(...vevent(`${getOrdinal(i + 1)} Fast — Ramadan`, d, `Day ${i + 1} of Ramadan 2026`));
-  }
-
-  // Qadr nights
-  [20, 22, 24, 26, 28].forEach(fd => {
-    const d = new Date(start);
-    d.setDate(d.getDate() + fd - 1);
-    cal.push(...vevent(`Laylatul Qadr — ${getOrdinal(fd + 1)} Night`, d, 'Seek Laylatul Qadr on this odd night.'));
-  });
-
-  // Eid options
-  const eid29 = getEidDate29(startOption);
-  cal.push(...vevent('Eid al-Fitr (if 29 days)', eid29, 'Eid al-Fitr if Ramadan is 29 days.'));
-  const eid30 = getEidDate30(startOption);
-  cal.push(...vevent('Eid al-Fitr (if 30 days)', eid30, 'Eid al-Fitr if Ramadan is 30 days.'));
-
-  cal.push('END:VCALENDAR');
-  return cal.join('\r\n');
+/** Parse "H:MM AM/PM" into { hour24, minute } */
+function parse12to24(time12: string): { hour: number; minute: number } {
+  const match = time12.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+  if (!match) return { hour: 0, minute: 0 };
+  let h = parseInt(match[1], 10);
+  const m = parseInt(match[2], 10);
+  const ampm = match[3].toUpperCase();
+  if (ampm === 'PM' && h < 12) h += 12;
+  if (ampm === 'AM' && h === 12) h = 0;
+  return { hour: h, minute: m };
 }
 
-function vevent(summary: string, date: Date, description: string): string[] {
+function icsDateTime(d: Date, time12: string, tz: string): string {
+  const { hour, minute } = parse12to24(time12);
+  return `TZID=${tz}:${d.getFullYear()}${pad2(d.getMonth() + 1)}${pad2(d.getDate())}T${pad2(hour)}${pad2(minute)}00`;
+}
+
+function veventAllDay(summary: string, date: Date, description: string): string[] {
   const next = new Date(date);
   next.setDate(next.getDate() + 1);
   return [
@@ -181,6 +161,107 @@ function vevent(summary: string, date: Date, description: string): string[] {
     `DESCRIPTION:${description}`,
     'END:VEVENT',
   ];
+}
+
+function veventTimed(summary: string, date: Date, startTime: string, durationMins: number, tz: string, description: string): string[] {
+  const { hour, minute } = parse12to24(startTime);
+  const endTotal = hour * 60 + minute + durationMins;
+  const endH = Math.floor(endTotal / 60) % 24;
+  const endM = endTotal % 60;
+  return [
+    'BEGIN:VEVENT',
+    `DTSTART;${icsDateTime(date, startTime, tz)}`,
+    `DTEND;TZID=${tz}:${date.getFullYear()}${pad2(date.getMonth() + 1)}${pad2(date.getDate())}T${pad2(endH)}${pad2(endM)}00`,
+    `SUMMARY:${summary}`,
+    `DESCRIPTION:${description}`,
+    'END:VEVENT',
+  ];
+}
+
+export async function generateICS(startOption: StartDate, location: LocationData): Promise<string> {
+  const start = startOption === 'feb18' ? new Date(2026, 1, 18) : new Date(2026, 1, 19);
+
+  // Fetch prayer times for all days (tarawih + 29 fasting days + eid)
+  const allDates: Date[] = [];
+  const tarawih = new Date(start);
+  tarawih.setDate(tarawih.getDate() - 1);
+  allDates.push(new Date(tarawih));
+  for (let i = 0; i < 31; i++) {
+    const d = new Date(start);
+    d.setDate(d.getDate() + i);
+    allDates.push(new Date(d));
+  }
+
+  // Fetch all prayer times in parallel
+  const prayerMap = new Map<string, PrayerTimesData>();
+  const results = await Promise.all(allDates.map(d => fetchPrayerTimes(d, location).catch(() => null)));
+  allDates.forEach((d, i) => {
+    if (results[i]) prayerMap.set(d.toDateString(), results[i]!);
+  });
+
+  const tz = location.timezone;
+
+  let cal = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Ramadan2026//EN',
+    'CALSCALE:GREGORIAN',
+  ];
+
+  // First Tarawih
+  const tarawihPrayers = prayerMap.get(tarawih.toDateString());
+  if (tarawihPrayers) {
+    cal.push(...veventTimed('First Tarawih Night', tarawih, tarawihPrayers.isha, 120, tz, 'The first Tarawih prayer of Ramadan 2026.'));
+  } else {
+    cal.push(...veventAllDay('First Tarawih Night', tarawih, 'The first Tarawih prayer of Ramadan 2026.'));
+  }
+
+  // Fasting days with prayer times
+  for (let i = 0; i < 29; i++) {
+    const d = new Date(start);
+    d.setDate(d.getDate() + i);
+    const dayNum = i + 1;
+    const p = prayerMap.get(d.toDateString());
+    const prayerDesc = p
+      ? `Fajr: ${p.fajr}\\nSunrise: ${p.sunrise}\\nDhuhr: ${p.dhuhr}\\nAsr: ${p.asr}\\nMaghrib: ${p.maghrib}\\nIsha: ${p.isha}`
+      : '';
+
+    // All-day fasting event
+    cal.push(...veventAllDay(
+      `${getOrdinal(dayNum)} Fast — Ramadan`,
+      d,
+      `Day ${dayNum} of Ramadan 2026. ${prayerDesc}`
+    ));
+
+    // Individual prayer events
+    if (p) {
+      cal.push(...veventTimed(`Fajr — Day ${dayNum}`, d, p.fajr, 30, tz, `Fajr prayer - ${location.city}, ${location.state}`));
+      cal.push(...veventTimed(`Dhuhr — Day ${dayNum}`, d, p.dhuhr, 30, tz, `Dhuhr prayer - ${location.city}, ${location.state}`));
+      cal.push(...veventTimed(`Asr — Day ${dayNum}`, d, p.asr, 30, tz, `Asr prayer - ${location.city}, ${location.state}`));
+      cal.push(...veventTimed(`Maghrib — Day ${dayNum}`, d, p.maghrib, 15, tz, `Maghrib prayer / Iftar - ${location.city}, ${location.state}`));
+      cal.push(...veventTimed(`Isha — Day ${dayNum}`, d, p.isha, 30, tz, `Isha prayer - ${location.city}, ${location.state}`));
+    }
+
+    // Qadr nights
+    const qadrFastingDays = [20, 22, 24, 26, 28];
+    if (qadrFastingDays.includes(dayNum) && p) {
+      cal.push(...veventTimed(`Laylatul Qadr — ${getOrdinal(dayNum + 1)} Night`, d, p.maghrib, 180, tz, 'Seek Laylatul Qadr on this odd night.'));
+    }
+
+    // Last 10 marker
+    if (dayNum === 21) {
+      cal.push(...veventAllDay('Last 10 Nights Begin', d, 'The last 10 nights of Ramadan begin.'));
+    }
+  }
+
+  // Eid options
+  const eid29 = getEidDate29(startOption);
+  cal.push(...veventAllDay('Eid al-Fitr (if 29 days)', eid29, 'Eid al-Fitr if Ramadan is 29 days.'));
+  const eid30 = getEidDate30(startOption);
+  cal.push(...veventAllDay('Eid al-Fitr (if 30 days)', eid30, 'Eid al-Fitr if Ramadan is 30 days.'));
+
+  cal.push('END:VCALENDAR');
+  return cal.join('\r\n');
 }
 
 export function getGoogleCalendarUrl(startOption: StartDate): string {
