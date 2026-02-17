@@ -11,7 +11,8 @@ import {
   type StartDate,
 } from "@/lib/ramadan-data";
 import { type LocationData, getDefaultLocation } from "@/lib/prayer-times";
-import { Moon, Star, Download, ExternalLink, Heart } from "lucide-react";
+import { Moon, Star, Download, ExternalLink, Heart, ChevronDown } from "lucide-react";
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
 import { Button } from "@/components/ui/button";
 
 const STORAGE_KEY_LOCATION = 'ramadan2026_location';
@@ -178,10 +179,25 @@ const Index = () => {
             Download for Apple Calendar
           </Button>
         </div>
-        <p className="text-xs text-muted-foreground">
-          The .ics file works with Apple Calendar, Outlook, Google Calendar, and other calendar apps.
-        </p>
-      </section>
+         <p className="text-xs text-muted-foreground">
+           The .ics file works with Apple Calendar, Outlook, Google Calendar, and other calendar apps.
+         </p>
+         <Collapsible>
+           <CollapsibleTrigger className="inline-flex items-center gap-1 text-xs font-medium text-ramadan-amber hover:text-ramadan-amber/80 transition-colors mt-2 group">
+             How to Add to Google Calendar (Step-by-Step)
+             <ChevronDown className="h-3 w-3 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+           </CollapsibleTrigger>
+           <CollapsibleContent className="mt-3">
+             <ol className="text-left text-xs sm:text-sm text-muted-foreground space-y-2 list-decimal list-inside bg-muted/30 rounded-lg p-4 border border-border">
+               <li>Click <strong className="text-foreground">"Generate & Open Google Calendar"</strong>.</li>
+               <li>The ICS file will automatically download to your device.</li>
+               <li>You will be redirected to the Google Calendar import page.</li>
+               <li>Click <strong className="text-foreground">"Select file from your computer"</strong>.</li>
+               <li>Choose the ICS file you just downloaded and click <strong className="text-foreground">"Import"</strong> to add all Ramadan events at once.</li>
+             </ol>
+           </CollapsibleContent>
+         </Collapsible>
+       </section>
 
       {/* ─── EDUCATIONAL ─── */}
       <section className="max-w-2xl mx-auto px-4 py-12">
