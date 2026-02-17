@@ -3,11 +3,11 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { RamadanCalendar } from "@/components/RamadanCalendar";
 import { DayDetailModal } from "@/components/DayDetailModal";
 import { LocationSelector } from "@/components/LocationSelector";
+import { ExportConfirmModal } from "@/components/ExportConfirmModal";
 import {
   CalendarDay,
   generateCalendarDays,
   generateICS,
-  getGoogleCalendarUrl,
   type StartDate,
 } from "@/lib/ramadan-data";
 import { type LocationData, getDefaultLocation } from "@/lib/prayer-times";
@@ -37,6 +37,8 @@ const Index = () => {
   const [startOption, setStartOption] = useState<StartDate>(loadSavedStart);
   const [selectedDay, setSelectedDay] = useState<CalendarDay | null>(null);
   const [location, setLocation] = useState<LocationData>(loadSavedLocation);
+  const [exportModal, setExportModal] = useState<{ open: boolean; type: "google" | "ics" }>({ open: false, type: "ics" });
+  const [exporting, setExporting] = useState(false);
 
   const handleLocationChange = (loc: LocationData) => {
     setLocation(loc);
@@ -50,17 +52,23 @@ const Index = () => {
 
   const days = generateCalendarDays(startOption);
 
-  const handleDownloadICS = async () => {
-    const ics = await generateICS(startOption, location);
-    const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'ramadan-2026.ics';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+  const handleExportConfirm = async () => {
+    setExporting(true);
+    try {
+      const ics = await generateICS(startOption, location);
+      const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'ramadan-2026.ics';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } finally {
+      setExporting(false);
+      setExportModal({ open: false, type: "ics" });
+    }
   };
 
   return (
@@ -146,19 +154,17 @@ const Index = () => {
       {/* ─── ADD TO CALENDAR ─── */}
       <section className="max-w-md mx-auto px-4 py-8 text-center space-y-3">
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <Button variant="outline" asChild>
-            <a href={getGoogleCalendarUrl(startOption)} target="_blank" rel="noopener noreferrer">
-              <ExternalLink className="mr-2 h-4 w-4" />
-              Add to Google Calendar
-            </a>
+          <Button variant="outline" onClick={() => setExportModal({ open: true, type: "google" })}>
+            <ExternalLink className="mr-2 h-4 w-4" />
+            Add to Google Calendar
           </Button>
-          <Button variant="outline" onClick={handleDownloadICS}>
+          <Button variant="outline" onClick={() => setExportModal({ open: true, type: "ics" })}>
             <Download className="mr-2 h-4 w-4" />
             Download for Apple Calendar
           </Button>
         </div>
         <p className="text-xs text-muted-foreground">
-          The .ics file works with Apple Calendar, Outlook, and other calendar apps.
+          The .ics file works with Apple Calendar, Outlook, Google Calendar, and other calendar apps.
         </p>
       </section>
 
@@ -260,6 +266,17 @@ const Index = () => {
 
       {/* ─── DAY DETAIL MODAL ─── */}
       <DayDetailModal day={selectedDay} onClose={() => setSelectedDay(null)} location={location} />
+
+      {/* ─── EXPORT CONFIRM MODAL ─── */}
+      <ExportConfirmModal
+        open={exportModal.open}
+        onClose={() => setExportModal({ open: false, type: "ics" })}
+        onConfirm={handleExportConfirm}
+        location={location}
+        startOption={startOption}
+        exportType={exportModal.type}
+        loading={exporting}
+      />
     </div>
   );
 };
