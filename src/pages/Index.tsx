@@ -14,15 +14,44 @@ import { type LocationData, getDefaultLocation } from "@/lib/prayer-times";
 import { Moon, Star, Download, ExternalLink, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+const STORAGE_KEY_LOCATION = 'ramadan2026_location';
+const STORAGE_KEY_START = 'ramadan2026_start';
+
+function loadSavedLocation(): LocationData {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY_LOCATION);
+    if (saved) return JSON.parse(saved);
+  } catch {}
+  return getDefaultLocation();
+}
+
+function loadSavedStart(): StartDate {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY_START);
+    if (saved === 'feb18' || saved === 'feb19') return saved;
+  } catch {}
+  return 'feb18';
+}
+
 const Index = () => {
-  const [startOption, setStartOption] = useState<StartDate>('feb18');
+  const [startOption, setStartOption] = useState<StartDate>(loadSavedStart);
   const [selectedDay, setSelectedDay] = useState<CalendarDay | null>(null);
-  const [location, setLocation] = useState<LocationData>(getDefaultLocation);
+  const [location, setLocation] = useState<LocationData>(loadSavedLocation);
+
+  const handleLocationChange = (loc: LocationData) => {
+    setLocation(loc);
+    try { localStorage.setItem(STORAGE_KEY_LOCATION, JSON.stringify(loc)); } catch {}
+  };
+
+  const handleStartChange = (opt: StartDate) => {
+    setStartOption(opt);
+    try { localStorage.setItem(STORAGE_KEY_START, opt); } catch {}
+  };
 
   const days = generateCalendarDays(startOption);
 
-  const handleDownloadICS = () => {
-    const ics = generateICS(startOption);
+  const handleDownloadICS = async () => {
+    const ics = await generateICS(startOption, location);
     const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -62,7 +91,7 @@ const Index = () => {
       </header>
 
       {/* ─── LOCATION SELECTOR (comes first) ─── */}
-      <LocationSelector location={location} onLocationChange={setLocation} />
+      <LocationSelector location={location} onLocationChange={handleLocationChange} />
 
       {/* ─── START DATE SELECTOR ─── */}
       <section className="max-w-2xl mx-auto px-4 pt-2 pb-6 text-center">
@@ -75,14 +104,14 @@ const Index = () => {
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <Button
             variant={startOption === 'feb18' ? 'default' : 'outline'}
-            onClick={() => setStartOption('feb18')}
+            onClick={() => handleStartChange('feb18')}
             className={startOption === 'feb18' ? 'glow-border-amber' : ''}
           >
             February 18 — Astronomical
           </Button>
           <Button
             variant={startOption === 'feb19' ? 'default' : 'outline'}
-            onClick={() => setStartOption('feb19')}
+            onClick={() => handleStartChange('feb19')}
             className={startOption === 'feb19' ? 'glow-border-amber' : ''}
           >
             February 19 — Moon Sighting
@@ -111,11 +140,6 @@ const Index = () => {
         </div>
         <p className="text-muted-foreground text-xs sm:text-sm mt-4 leading-relaxed text-center max-w-2xl mx-auto">
           <strong className="text-foreground not-italic">Note:</strong> In Islam, the night begins before the day. This means the "odd night" comes before the corresponding fast day. For example, after Maghrib on the 20th fast, the 21st night begins and continues until Fajr, after which the 21st fast day starts.
-        </p>
-        <p className="text-muted-foreground text-xs sm:text-sm mt-3 leading-relaxed italic text-center max-w-2xl mx-auto">
-          "Laylatul Qadr, the Night of Power, is a deeply sacred night in the last 10 nights of
-          Ramadan when the Qur'an was first revealed. Many Muslims seek it on the odd nights,
-          dedicating the evening to prayer, reflection, and worship."
         </p>
       </section>
 
