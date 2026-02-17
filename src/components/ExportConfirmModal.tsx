@@ -53,7 +53,9 @@ export function ExportConfirmModal({
             Confirm Calendar Export
           </DialogTitle>
           <DialogDescription>
-            Review your settings before {exportType === "google" ? "downloading for Google Calendar" : "downloading the .ics file"}.
+            {exportType === "google"
+              ? "Review your settings. The calendar file will be generated and Google Calendar's import page will open automatically."
+              : "Review your settings before downloading the .ics file."}
           </DialogDescription>
         </DialogHeader>
 
@@ -78,7 +80,11 @@ export function ExportConfirmModal({
             Cancel
           </Button>
           <Button onClick={onConfirm} disabled={loading}>
-            {loading ? "Generating…" : "Download Calendar"}
+            {loading
+              ? "Generating…"
+              : exportType === "google"
+                ? "Generate & Open Google Calendar"
+                : "Download .ics File"}
           </Button>
         </DialogFooter>
       </DialogContent>
