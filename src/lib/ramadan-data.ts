@@ -192,12 +192,30 @@ export async function generateICS(startOption: StartDate, location: LocationData
     allDates.push(new Date(d));
   }
 
-  // Fetch all prayer times in parallel
+  // Fetch prayer times in small batches with delays and retries to avoid API rate limiting
   const prayerMap = new Map<string, PrayerTimesData>();
-  const results = await Promise.all(allDates.map(d => fetchPrayerTimes(d, location).catch(() => null)));
-  allDates.forEach((d, i) => {
-    if (results[i]) prayerMap.set(d.toDateString(), results[i]!);
-  });
+  const BATCH_SIZE = 2;
+  const delay = (ms: number) => new Promise(r => setTimeout(r, ms));
+
+  const fetchWithRetry = async (d: Date, retries = 3): Promise<PrayerTimesData | null> => {
+    for (let attempt = 0; attempt < retries; attempt++) {
+      try {
+        return await fetchPrayerTimes(d, location);
+      } catch {
+        if (attempt < retries - 1) await delay(500 * (attempt + 1));
+      }
+    }
+    return null;
+  };
+
+  for (let b = 0; b < allDates.length; b += BATCH_SIZE) {
+    const batch = allDates.slice(b, b + BATCH_SIZE);
+    const results = await Promise.all(batch.map(d => fetchWithRetry(d)));
+    batch.forEach((d, i) => {
+      if (results[i]) prayerMap.set(d.toDateString(), results[i]!);
+    });
+    if (b + BATCH_SIZE < allDates.length) await delay(400);
+  }
 
   const tz = location.timezone;
 
