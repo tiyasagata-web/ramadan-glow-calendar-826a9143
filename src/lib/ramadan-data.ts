@@ -242,6 +242,7 @@ export async function generateICS(startOption: StartDate, location: LocationData
       cal.push(...veventTimed(`Asr (Hanafi) — Day ${dayNum}`, d, p.asrHanafi, 30, tz, `Asr prayer (Hanafi madhab) - ${location.city}, ${location.state}`));
       cal.push(...veventTimed(`Maghrib — Day ${dayNum}`, d, p.maghrib, 15, tz, `Maghrib prayer / Iftar - ${location.city}, ${location.state}`));
       cal.push(...veventTimed(`Isha — Day ${dayNum}`, d, p.isha, 30, tz, `Isha prayer - ${location.city}, ${location.state}`));
+      cal.push(...veventTimed(`Last Third Begins — Day ${dayNum}`, d, p.lastThirdBegins, 15, tz, `Last third of the night begins - ${location.city}, ${location.state}`));
     }
 
     // Qadr nights

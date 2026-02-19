@@ -72,7 +72,7 @@ export function ExportConfirmModal({
         </div>
 
         <p className="text-xs text-muted-foreground">
-          The file will include all daily prayer times (Fajr, Dhuhr, Asr, Maghrib, Isha), First Tarawih, Last 10 Nights, Qadr nights, and Eid al-Fitr.
+          The file includes all daily prayer times (Imsak, Fajr, Dhuhr, Asr – Standard &amp; Hanafi, Maghrib, Isha, and Last Third of the Night Begins), plus First Tarawih, the Last 10 Nights, Laylatul Qadr nights, and Eid al-Fitr.
         </p>
 
         <DialogFooter>
