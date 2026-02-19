@@ -112,8 +112,8 @@ export function DayDetailModal({ day, onClose, location }: Props) {
                 <>
                   {/* Imsak */}
                   <div className="flex justify-between text-sm">
-                    <span className="font-medium text-ramadan-amber/80 italic">Imsak</span>
-                    <span className="text-ramadan-amber/80 italic">{prayers.imsak}</span>
+                    <span className="font-medium text-green-600 dark:text-green-400 italic">Imsak</span>
+                    <span className="text-green-600 dark:text-green-400 italic">{prayers.imsak}</span>
                   </div>
 
                   {[
@@ -167,6 +167,9 @@ export function DayDetailModal({ day, onClose, location }: Props) {
 
               <p className="text-[10px] text-muted-foreground mt-3 pt-2 border-t border-border/50">
                 Prayer times calculated using {METHOD_NAME} via the AlAdhan API for {location.city}, {location.state}.
+              </p>
+              <p className="text-[10px] text-muted-foreground mt-2 italic leading-relaxed">
+                Imsak marks a precautionary time before Fajr when some communities stop eating. It is not universally required but is followed in certain regions as a precaution.
               </p>
             </div>
           )}
