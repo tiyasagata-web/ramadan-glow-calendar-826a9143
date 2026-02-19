@@ -216,8 +216,8 @@ export async function generateICS(startOption: StartDate, location: LocationData
     cal.push(...veventAllDay('First Tarawih Night', tarawih, 'The first Tarawih prayer of Ramadan 2026.'));
   }
 
-  // Fasting days with prayer times
-  for (let i = 0; i < 29; i++) {
+  // Fasting days with prayer times (30 days to cover both 29 and 30 day scenarios)
+  for (let i = 0; i < 30; i++) {
     const d = new Date(start);
     d.setDate(d.getDate() + i);
     const dayNum = i + 1;
@@ -226,23 +226,26 @@ export async function generateICS(startOption: StartDate, location: LocationData
       ? `Imsak: ${p.imsak}\\nFajr: ${p.fajr}\\nSunrise: ${p.sunrise}\\nDhuhr: ${p.dhuhr}\\nAsr (Standard): ${p.asr}\\nAsr (Hanafi): ${p.asrHanafi}\\nMaghrib: ${p.maghrib}\\nIsha: ${p.isha}\\nLast Third: ${p.lastThirdBegins}`
       : '';
 
-    // All-day fasting event
-    cal.push(...veventAllDay(
-      `${getOrdinal(dayNum)} Fast — Ramadan`,
-      d,
-      `Day ${dayNum} of Ramadan 2026. ${prayerDesc}`
-    ));
+    // All-day fasting event (30th is conditional)
+    const summary = dayNum === 30
+      ? `${getOrdinal(dayNum)} Fast — Ramadan (if 30 days)`
+      : `${getOrdinal(dayNum)} Fast — Ramadan`;
+    const desc = dayNum === 30
+      ? `Day ${dayNum} of Ramadan 2026 (if Ramadan is 30 days). ${prayerDesc}`
+      : `Day ${dayNum} of Ramadan 2026. ${prayerDesc}`;
+    cal.push(...veventAllDay(summary, d, desc));
 
     // Individual prayer events
     if (p) {
-      cal.push(...veventTimed(`Imsak — Day ${dayNum}`, d, p.imsak, 10, tz, `Imsak (precautionary stop time) - ${location.city}, ${location.state}`));
-      cal.push(...veventTimed(`Fajr — Day ${dayNum}`, d, p.fajr, 30, tz, `Fajr prayer - ${location.city}, ${location.state}`));
-      cal.push(...veventTimed(`Dhuhr — Day ${dayNum}`, d, p.dhuhr, 30, tz, `Dhuhr prayer - ${location.city}, ${location.state}`));
-      cal.push(...veventTimed(`Asr (Standard) — Day ${dayNum}`, d, p.asr, 30, tz, `Asr prayer (Shafi'i, Maliki, Hanbali) - ${location.city}, ${location.state}`));
-      cal.push(...veventTimed(`Asr (Hanafi) — Day ${dayNum}`, d, p.asrHanafi, 30, tz, `Asr prayer (Hanafi madhab) - ${location.city}, ${location.state}`));
-      cal.push(...veventTimed(`Maghrib — Day ${dayNum}`, d, p.maghrib, 15, tz, `Maghrib prayer / Iftar - ${location.city}, ${location.state}`));
-      cal.push(...veventTimed(`Isha — Day ${dayNum}`, d, p.isha, 30, tz, `Isha prayer - ${location.city}, ${location.state}`));
-      cal.push(...veventTimed(`Last Third Begins — Day ${dayNum}`, d, p.lastThirdBegins, 15, tz, `Last third of the night begins - ${location.city}, ${location.state}`));
+      const daySuffix = dayNum === 30 ? ` (if 30 days)` : '';
+      cal.push(...veventTimed(`Imsak — Day ${dayNum}${daySuffix}`, d, p.imsak, 10, tz, `Imsak (precautionary stop time) - ${location.city}, ${location.state}`));
+      cal.push(...veventTimed(`Fajr — Day ${dayNum}${daySuffix}`, d, p.fajr, 30, tz, `Fajr prayer - ${location.city}, ${location.state}`));
+      cal.push(...veventTimed(`Dhuhr — Day ${dayNum}${daySuffix}`, d, p.dhuhr, 30, tz, `Dhuhr prayer - ${location.city}, ${location.state}`));
+      cal.push(...veventTimed(`Asr (Standard) — Day ${dayNum}${daySuffix}`, d, p.asr, 30, tz, `Asr prayer (Shafi'i, Maliki, Hanbali) - ${location.city}, ${location.state}`));
+      cal.push(...veventTimed(`Asr (Hanafi) — Day ${dayNum}${daySuffix}`, d, p.asrHanafi, 30, tz, `Asr prayer (Hanafi madhab) - ${location.city}, ${location.state}`));
+      cal.push(...veventTimed(`Maghrib — Day ${dayNum}${daySuffix}`, d, p.maghrib, 15, tz, `Maghrib prayer / Iftar - ${location.city}, ${location.state}`));
+      cal.push(...veventTimed(`Isha — Day ${dayNum}${daySuffix}`, d, p.isha, 30, tz, `Isha prayer - ${location.city}, ${location.state}`));
+      cal.push(...veventTimed(`Last Third Begins — Day ${dayNum}${daySuffix}`, d, p.lastThirdBegins, 15, tz, `Last third of the night begins - ${location.city}, ${location.state}`));
     }
 
     // Qadr nights
@@ -255,6 +258,17 @@ export async function generateICS(startOption: StartDate, location: LocationData
     if (dayNum === 21) {
       cal.push(...veventAllDay('Last 10 Nights Begin', d, 'The last 10 nights of Ramadan begin.'));
     }
+  }
+
+  // Validation: ensure all 30 fasting days have prayer data
+  let missingDays = 0;
+  for (let i = 0; i < 30; i++) {
+    const d = new Date(start);
+    d.setDate(d.getDate() + i);
+    if (!prayerMap.has(d.toDateString())) missingDays++;
+  }
+  if (missingDays > 0) {
+    throw new Error(`Failed to generate calendar: ${missingDays} fasting day(s) are missing prayer time data. Please try again.`);
   }
 
   // Eid options
