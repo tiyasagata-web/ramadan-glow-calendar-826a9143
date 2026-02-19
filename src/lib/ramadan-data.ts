@@ -223,7 +223,7 @@ export async function generateICS(startOption: StartDate, location: LocationData
     const dayNum = i + 1;
     const p = prayerMap.get(d.toDateString());
     const prayerDesc = p
-      ? `Fajr: ${p.fajr}\\nSunrise: ${p.sunrise}\\nDhuhr: ${p.dhuhr}\\nAsr: ${p.asr}\\nMaghrib: ${p.maghrib}\\nIsha: ${p.isha}`
+      ? `Imsak: ${p.imsak}\\nFajr: ${p.fajr}\\nSunrise: ${p.sunrise}\\nDhuhr: ${p.dhuhr}\\nAsr (Standard): ${p.asr}\\nAsr (Hanafi): ${p.asrHanafi}\\nMaghrib: ${p.maghrib}\\nIsha: ${p.isha}\\nLast Third: ${p.lastThirdBegins}`
       : '';
 
     // All-day fasting event
@@ -235,9 +235,11 @@ export async function generateICS(startOption: StartDate, location: LocationData
 
     // Individual prayer events
     if (p) {
+      cal.push(...veventTimed(`Imsak — Day ${dayNum}`, d, p.imsak, 10, tz, `Imsak (precautionary stop time) - ${location.city}, ${location.state}`));
       cal.push(...veventTimed(`Fajr — Day ${dayNum}`, d, p.fajr, 30, tz, `Fajr prayer - ${location.city}, ${location.state}`));
       cal.push(...veventTimed(`Dhuhr — Day ${dayNum}`, d, p.dhuhr, 30, tz, `Dhuhr prayer - ${location.city}, ${location.state}`));
-      cal.push(...veventTimed(`Asr — Day ${dayNum}`, d, p.asr, 30, tz, `Asr prayer - ${location.city}, ${location.state}`));
+      cal.push(...veventTimed(`Asr (Standard) — Day ${dayNum}`, d, p.asr, 30, tz, `Asr prayer (Shafi'i, Maliki, Hanbali) - ${location.city}, ${location.state}`));
+      cal.push(...veventTimed(`Asr (Hanafi) — Day ${dayNum}`, d, p.asrHanafi, 30, tz, `Asr prayer (Hanafi madhab) - ${location.city}, ${location.state}`));
       cal.push(...veventTimed(`Maghrib — Day ${dayNum}`, d, p.maghrib, 15, tz, `Maghrib prayer / Iftar - ${location.city}, ${location.state}`));
       cal.push(...veventTimed(`Isha — Day ${dayNum}`, d, p.isha, 30, tz, `Isha prayer - ${location.city}, ${location.state}`));
     }
