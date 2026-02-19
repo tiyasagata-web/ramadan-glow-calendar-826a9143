@@ -258,6 +258,7 @@ export async function generateICS(startOption: StartDate, location: LocationData
       const daySuffix = dayNum === 30 ? ` (if 30 days)` : '';
       cal.push(...veventTimed(`Imsak — Day ${dayNum}${daySuffix}`, d, p.imsak, 10, tz, `Imsak (precautionary stop time) - ${location.city}, ${location.state}`));
       cal.push(...veventTimed(`Fajr — Day ${dayNum}${daySuffix}`, d, p.fajr, 30, tz, `Fajr prayer - ${location.city}, ${location.state}`));
+      cal.push(...veventTimed(`Sunrise — Day ${dayNum}${daySuffix}`, d, p.sunrise, 10, tz, `Sunrise - ${location.city}, ${location.state}`));
       cal.push(...veventTimed(`Dhuhr — Day ${dayNum}${daySuffix}`, d, p.dhuhr, 30, tz, `Dhuhr prayer - ${location.city}, ${location.state}`));
       cal.push(...veventTimed(`Asr (Standard) — Day ${dayNum}${daySuffix}`, d, p.asr, 30, tz, `Asr prayer (Shafi'i, Maliki, Hanbali) - ${location.city}, ${location.state}`));
       cal.push(...veventTimed(`Asr (Hanafi) — Day ${dayNum}${daySuffix}`, d, p.asrHanafi, 30, tz, `Asr prayer (Hanafi madhab) - ${location.city}, ${location.state}`));
