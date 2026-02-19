@@ -59,7 +59,7 @@ const Index = () => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'ramadan-calendar.ics';
+    a.download = 'ramadan-calendar-2026.ics';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
