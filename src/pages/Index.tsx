@@ -79,7 +79,7 @@ const Index = () => {
       if (exportModal.type === "google") {
         // Step 2: Open Google Calendar import page after a short delay
         setTimeout(() => {
-          const win = window.open('https://calendar.google.com/calendar/u/0/r/settings/import', '_blank');
+          const win = window.open('https://calendar.google.com/calendar/u/0/r/settings/export', '_blank');
           if (!win || win.closed) {
             setPopupBlocked(true);
           } else {
@@ -193,7 +193,7 @@ const Index = () => {
               variant="outline"
               size="sm"
               onClick={() => {
-                window.open('https://calendar.google.com/calendar/u/0/r/settings/import', '_blank');
+                window.open('https://calendar.google.com/calendar/u/0/r/settings/export', '_blank');
                 setPopupBlocked(false);
               }}
             >
