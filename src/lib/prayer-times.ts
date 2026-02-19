@@ -1,8 +1,10 @@
 export interface PrayerTimesData {
+  imsak: string;
   fajr: string;
   sunrise: string;
   dhuhr: string;
   asr: string;
+  asrHanafi: string;
   maghrib: string;
   isha: string;
   lastThirdBegins: string;
@@ -87,30 +89,34 @@ export async function fetchPrayerTimes(
   const nmm = nextDay.getMonth() + 1;
   const nyyyy = nextDay.getFullYear();
 
-  const [todayRes, nextRes] = await Promise.all([
-    fetch(
-      `https://api.aladhan.com/v1/timings/${dd}-${mm}-${yyyy}?latitude=${location.latitude}&longitude=${location.longitude}&method=${CALCULATION_METHOD}`
-    ),
-    fetch(
-      `https://api.aladhan.com/v1/timings/${ndd}-${nmm}-${nyyyy}?latitude=${location.latitude}&longitude=${location.longitude}&method=${CALCULATION_METHOD}`
-    ),
+  const baseUrl = `https://api.aladhan.com/v1/timings`;
+  const baseParams = `latitude=${location.latitude}&longitude=${location.longitude}&method=${CALCULATION_METHOD}`;
+
+  const [todayRes, nextRes, todayHanafiRes] = await Promise.all([
+    fetch(`${baseUrl}/${dd}-${mm}-${yyyy}?${baseParams}&school=0`),
+    fetch(`${baseUrl}/${ndd}-${nmm}-${nyyyy}?${baseParams}&school=0`),
+    fetch(`${baseUrl}/${dd}-${mm}-${yyyy}?${baseParams}&school=1`),
   ]);
 
-  if (!todayRes.ok || !nextRes.ok) {
+  if (!todayRes.ok || !nextRes.ok || !todayHanafiRes.ok) {
     throw new Error('Failed to fetch prayer times');
   }
 
   const todayData = await todayRes.json();
   const nextData = await nextRes.json();
+  const hanafiData = await todayHanafiRes.json();
 
   const timings = todayData.data.timings;
   const nextTimings = nextData.data.timings;
+  const hanafiTimings = hanafiData.data.timings;
 
   const result: PrayerTimesData = {
+    imsak: formatTime12(timings.Imsak),
     fajr: formatTime12(timings.Fajr),
     sunrise: formatTime12(timings.Sunrise),
     dhuhr: formatTime12(timings.Dhuhr),
     asr: formatTime12(timings.Asr),
+    asrHanafi: formatTime12(hanafiTimings.Asr),
     maghrib: formatTime12(timings.Maghrib),
     isha: formatTime12(timings.Isha),
     lastThirdBegins: calculateLastThird(timings.Maghrib, nextTimings.Fajr),

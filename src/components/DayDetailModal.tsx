@@ -110,11 +110,40 @@ export function DayDetailModal({ day, onClose, location }: Props) {
 
               {prayers && !loading && (
                 <>
+                  {/* Imsak */}
+                  <div className="flex justify-between text-sm">
+                    <span className="font-medium text-ramadan-amber/80 italic">Imsak</span>
+                    <span className="text-ramadan-amber/80 italic">{prayers.imsak}</span>
+                  </div>
+
                   {[
                     { label: "Fajr", value: prayers.fajr },
                     { label: "Sunrise", value: prayers.sunrise },
                     { label: "Dhuhr", value: prayers.dhuhr },
-                    { label: "Asr", value: prayers.asr },
+                  ].map(({ label, value }) => (
+                    <div key={label} className="flex justify-between text-sm">
+                      <span className="font-medium">{label}</span>
+                      <span className="text-muted-foreground">{value}</span>
+                    </div>
+                  ))}
+
+                  {/* Dual Asr */}
+                  <div className="flex justify-between text-sm items-start">
+                    <div>
+                      <span className="font-medium">Asr (Standard)</span>
+                      <p className="text-[10px] text-muted-foreground leading-tight">Shafi'i, Maliki, Hanbali</p>
+                    </div>
+                    <span className="text-muted-foreground">{prayers.asr}</span>
+                  </div>
+                  <div className="flex justify-between text-sm items-start">
+                    <div>
+                      <span className="font-medium">Asr (Hanafi)</span>
+                      <p className="text-[10px] text-muted-foreground leading-tight">Hanafi madhab</p>
+                    </div>
+                    <span className="text-muted-foreground">{prayers.asrHanafi}</span>
+                  </div>
+
+                  {[
                     { label: "Maghrib", value: prayers.maghrib },
                     { label: "Isha", value: prayers.isha },
                   ].map(({ label, value }) => (
