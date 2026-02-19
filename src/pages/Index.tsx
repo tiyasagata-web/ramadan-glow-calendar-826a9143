@@ -53,37 +53,44 @@ const Index = () => {
 
   const days = generateCalendarDays(startOption);
 
+  const [popupBlocked, setPopupBlocked] = useState(false);
+
+  const triggerDownload = (blob: Blob) => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'ramadan-calendar.ics';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   const handleExportConfirm = async () => {
     setExporting(true);
+    setPopupBlocked(false);
     try {
       const ics = await generateICS(startOption, location);
       const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
 
+      // Step 1: Download the file
+      triggerDownload(blob);
+
       if (exportModal.type === "google") {
-        // Download the file first, then open Google Calendar import
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'ramadan-2026.ics';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-        // Open Google Calendar import page
-        window.open('https://calendar.google.com/calendar/r/settings/export', '_blank');
+        // Step 2: Open Google Calendar import page after a short delay
+        setTimeout(() => {
+          const win = window.open('https://calendar.google.com/calendar/u/0/r/settings/import', '_blank');
+          if (!win || win.closed) {
+            setPopupBlocked(true);
+          } else {
+            setExportModal({ open: false, type: "google" });
+          }
+        }, 300);
       } else {
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'ramadan-2026.ics';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
+        setExportModal({ open: false, type: "ics" });
       }
     } finally {
       setExporting(false);
-      setExportModal({ open: false, type: exportModal.type });
     }
   };
 
@@ -179,6 +186,22 @@ const Index = () => {
             Download for Apple Calendar
           </Button>
         </div>
+        {popupBlocked && (
+          <div className="flex flex-col items-center gap-2 mt-2 p-3 bg-muted/50 rounded-lg border border-border">
+            <p className="text-xs text-muted-foreground">Your browser blocked the popup. Click below to open Google Calendar:</p>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                window.open('https://calendar.google.com/calendar/u/0/r/settings/import', '_blank');
+                setPopupBlocked(false);
+              }}
+            >
+              <ExternalLink className="mr-2 h-3 w-3" />
+              Open Google Calendar manually
+            </Button>
+          </div>
+        )}
          <p className="text-xs text-muted-foreground">
            The .ics file works with Apple Calendar, Outlook, Google Calendar, and other calendar apps.
          </p>
